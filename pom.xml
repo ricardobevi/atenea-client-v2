@@ -5,14 +5,12 @@
 	<artifactId>ateneaClient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-
-
-
 	<description>Es el cliente encargado de comunicarse con el webservice</description>
 	<url>http://maven.apache.org</url>
 
 	<properties>
 		<cxf.version>2.6.3</cxf.version>
+		<main.class >org.squadra.atenea.Main</main.class>
 	</properties>
 
 	<parent>
