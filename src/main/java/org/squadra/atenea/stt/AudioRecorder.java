@@ -38,6 +38,11 @@ public class AudioRecorder {
 	/** Contiene las especificaciones del tipo de audio (ej: muestreo, canales) */
 	private AudioFormat format;
 
+	// Constantes utilizadas para la deteccion de silencio y timeout
+	private final static int TIMEOUT_RECORDING = 15;
+	private final static int TIMEOUT_SILENCE = 3;
+	private final static float MIN_PCM = 0.04f;
+	
 	// Constantes utilizadas para el calculo del PCM
 	private final static float MAX_8_BITS_SIGNED = Byte.MAX_VALUE;
 	private final static float MAX_8_BITS_UNSIGNED = 0xff;
@@ -152,6 +157,7 @@ public class AudioRecorder {
 			out = new ByteArrayOutputStream();
 			running = true;
 			ArrayList<Float> lastPCMs = new ArrayList<Float>();
+			int recordingTime = 0;
 
 			while (running) {
 				int count = line.read(buffer, 0, buffer.length);
@@ -161,8 +167,13 @@ public class AudioRecorder {
 				System.out.println("PCM: " + level);
 				lastPCMs.add(level);
 				
-				// Si se detecta silencio detengo la grabacion de voz
-				if (silenceDetected(lastPCMs)) {
+				// Si pasaron 15 segundos desde el inicio de la grabacion, la detengo.
+				if (++recordingTime >= TIMEOUT_RECORDING) {
+					System.out.println("============== TIMEOUT =============");
+					Atenea.getInstance().getMicrophone().stopRecordingAndRecognize();
+				}
+				// Si se detecta silencio, detengo la captura de voz.
+				else if (silenceDetected(lastPCMs)) {
 					System.out.println("============== SILENCIO =============");
 					Atenea.getInstance().getMicrophone().stopRecordingAndRecognize();
 				}
@@ -183,7 +194,7 @@ public class AudioRecorder {
 	 */
 	private boolean silenceDetected(ArrayList<Float> lastPCMs) {
 		
-		if(lastPCMs.size() > 3) {
+		if(lastPCMs.size() >= TIMEOUT_SILENCE) {
 			// Mantengo el array de PCMs de tama�o fijo (simulo una cola circular)
 			lastPCMs.remove(0);
 			
@@ -197,7 +208,7 @@ public class AudioRecorder {
 			
 			// Si el promedio es bajo se considera que hay silencio prolongado
 			// El silencio "absoluto" es aprox 0.01, pero por el ruido se considera 0.04
-			if(average < 0.04) {
+			if(average < MIN_PCM) {
 				return true;
 			}
 		}

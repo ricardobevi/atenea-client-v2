@@ -2,6 +2,9 @@ package org.squadra.atenea.stt;
 
 import java.io.IOException;
 
+import lombok.extern.log4j.Log4j;
+
+import org.eclipse.jetty.util.log.Log;
 import org.squadra.atenea.Atenea;
 import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.exceptions.GoogleTTSException;
@@ -13,6 +16,7 @@ import org.squadra.atenea.tts.MessageProcessor;
  * para obtener una respuesta y la reproduce.
  * @author Facundo D'Aranno, Leandro Morrone
  */
+@Log4j
 public class RecognizeVoiceThread implements Runnable {
 
 	/** Objeto que contiene las variables de configuracion y estado del sistema */
@@ -31,34 +35,33 @@ public class RecognizeVoiceThread implements Runnable {
 			googleResponse = recognizer
 					.getRecognizedDataForWave(atenea.getWaveFilePath(), atenea.getLanguageCode())
 					.getResponse();
-			MainGUI.getInstance().setTxtEntradaAudio(
-					new String(googleResponse.getBytes("ISO-8859-1"), "UTF-8"));
+			MainGUI.getInstance().setTxtEntradaAudio(googleResponse);
 			
 		} catch (GoogleTTSException e) {
 			outputMessage = new Message("No logro conectarme a Internet.", Message.ERROR);
 			e.printStackTrace();
 			responseOk = false;
 		} catch (IOException e) {
-			outputMessage = new Message("Tuve un problema interno, �podr�as repetirmelo?.", Message.ERROR);
+			outputMessage = new Message("Tuve un problema interno, podrías repetírmelo?.", Message.ERROR);
 			e.printStackTrace();
 			responseOk = false;
 		} catch (Exception e) {
-			outputMessage = new Message("Disculpa, �podr�as hablar un poco m�s alto?", Message.ERROR);
+			outputMessage = new Message("Disculpa, podrías hablar un poco más alto?", Message.ERROR);
 			e.printStackTrace();
 			responseOk = false;
-		}	
+		}
 		
 			
 		// Si hay internet, envio el mensaje de entrada al servidor
 		if (responseOk) {
 			
 			try {
-				Message inputMessage = new Message(
-						new String(googleResponse.getBytes("ISO-8859-1"), "UTF-8"));
+				Message inputMessage = new Message(googleResponse);
 				
 				// ESTA LINEA ENVIA EL MENSAJE AL SERVIDOR Y RECIBE LA RESPUESTA
 				outputMessage = atenea.getClient().dialog(inputMessage);
-				
+				log.error(inputMessage.getText());
+				log.error(outputMessage.getText());
 			} catch (Exception e) {
 				outputMessage = new Message("No logro conectarme al servidor.", Message.ERROR);
 			}
