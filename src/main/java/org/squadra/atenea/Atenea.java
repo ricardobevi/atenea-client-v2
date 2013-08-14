@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.squadra.atenea.ateneacommunication.AteneaWs;
-import org.squadra.atenea.gui.MainGUI;
+import org.squadra.atenea.gui.MainGUIPrototype;
 import org.squadra.atenea.stt.Microphone;
 import org.squadra.atenea.util.StaticMethods;
 
@@ -79,7 +79,7 @@ public @Data class Atenea {
 	 * @author Leandro Morrone
 	 */
 	public void launchMainGUI() {
-		MainGUI.createInstance();
+		MainGUIPrototype.createInstance();
 	}
 
 	/**
@@ -107,7 +107,7 @@ public @Data class Atenea {
 	 */
 	public void setState(int state) {
 		this.state.setState(state);
-		MainGUI.getInstance().setTxtEstadoDelSistema(this.getStateText());
+		MainGUIPrototype.getInstance().setTxtEstadoDelSistema(this.getStateText());
 	}
 	
 }
