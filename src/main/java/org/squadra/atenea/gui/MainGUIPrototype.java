@@ -28,22 +28,22 @@ import org.squadra.atenea.stt.RecognizeTextThread;
  * @author Leandro Morrone
  */
 @SuppressWarnings("serial")
-public class MainGUI extends JFrame {
+public class MainGUIPrototype extends JFrame {
 	
 	/** Objeto que contiene las variables de configuracion y estado del sistema */
 	private Atenea atenea = Atenea.getInstance();
 	
 	/** Singleton */
-	private static MainGUI INSTANCE = null;
+	private static MainGUIPrototype INSTANCE = null;
 	
 	/**
 	 * Crea una instancia de la interfaz, y si ya existe la devuelve
 	 * @return instancia singleton de la interfaz principal
 	 * @author Leandro Morrone
 	 */
-	public static MainGUI createInstance() {
+	public static MainGUIPrototype createInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new MainGUI();
+			INSTANCE = new MainGUIPrototype();
 		}
 		return INSTANCE;
 	}
@@ -53,7 +53,7 @@ public class MainGUI extends JFrame {
 	 * @return instancia singleton de la interfaz principal
 	 * @author Leandro Morrone
 	 */
-	public static MainGUI getInstance() {
+	public static MainGUIPrototype getInstance() {
 		return INSTANCE;
 	}
 	
@@ -61,7 +61,7 @@ public class MainGUI extends JFrame {
 	 * Constructor privado: inicia la interfaz principal
 	 * @author Leandro Morrone
 	 */
-	private MainGUI() {
+	private MainGUIPrototype() {
 		initComponents();
 	}
 	

@@ -8,7 +8,7 @@ import org.eclipse.jetty.util.log.Log;
 import org.squadra.atenea.Atenea;
 import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.exceptions.GoogleTTSException;
-import org.squadra.atenea.gui.MainGUI;
+import org.squadra.atenea.gui.MainGUIPrototype;
 import org.squadra.atenea.tts.MessageProcessor;
 
 /**
@@ -35,7 +35,7 @@ public class RecognizeVoiceThread implements Runnable {
 			googleResponse = recognizer
 					.getRecognizedDataForWave(atenea.getWaveFilePath(), atenea.getLanguageCode())
 					.getResponse();
-			MainGUI.getInstance().setTxtEntradaAudio(googleResponse);
+			MainGUIPrototype.getInstance().setTxtEntradaAudio(googleResponse);
 			
 		} catch (GoogleTTSException e) {
 			outputMessage = new Message("No logro conectarme a Internet.", Message.ERROR);
