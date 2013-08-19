@@ -9,7 +9,6 @@ import static com.googlecode.javacv.cpp.opencv_core.cvSize;
 import static com.googlecode.javacv.cpp.opencv_highgui.cvLoadImage;
 import static com.googlecode.javacv.cpp.opencv_imgproc.CV_TM_SQDIFF;
 import static com.googlecode.javacv.cpp.opencv_imgproc.cvMatchTemplate;
-
 import java.awt.AWTException;
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
@@ -17,28 +16,28 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-
+import java.util.List;
 import javax.imageio.ImageIO;
-
 import com.googlecode.javacv.cpp.opencv_core.CvPoint;
 import com.googlecode.javacv.cpp.opencv_core.CvScalar;
 import com.googlecode.javacv.cpp.opencv_core.IplImage;
 
-public class Executer {
-	private File dir = new File("images");
-	String[] actions;
-	Robot robot;
 
-	public Executer(String[] actions) {
+public class Executer {
+	
+	private File dir = new File("images");
+	private ListOfAction actionsRecorded;
+	private Robot robot;
+	
+	public Executer() {
+		actionsRecorded = ListOfAction.getInstance();
 		try {
 			robot = new Robot();
 		} catch (AWTException e) {
+			e.printStackTrace();
 		}
-		this.actions = actions;
 	}
 
 	public static void clickIn(int x, int y, String typeOfClick) {
@@ -49,7 +48,6 @@ public class Executer {
 				myRobot.mousePress(InputEvent.BUTTON1_MASK);
 				myRobot.mouseRelease(InputEvent.BUTTON1_MASK);
 			}
-
 		} catch (Exception e) {
 		}
 	}
@@ -57,23 +55,13 @@ public class Executer {
 	/*
 	 * Ejecuta las acciones indicadas
 	 */
-	public void execute() {
+	public void execute(String[] actions) {
 		for (String name : actions) {
-			File archivo = new File(dir.toString() + File.separatorChar + name + ".txt");
-			// Leo cada linea del archivo de iconos para hacer click y
-			// los ejecuto
-			FileReader fr;
-			try {
-				fr = new FileReader(archivo);
-				BufferedReader br = new BufferedReader(fr);
-				String clickType;
-				while ((clickType = br.readLine()) != null) {
-					String icon = br.readLine();
-					System.out.println("Searching: " + icon);
-					executeIcon(icon, clickType);
-				}
-				br.close();
-			} catch (Exception e) {
+			List<Click> action = actionsRecorded.getAction(name);
+			for (Click click : action)
+			{
+				System.out.println("Searching: " + click.getPathOfIcon());
+				executeIcon(click.getPathOfIcon(), click.getTypeOfClick());
 			}
 		}
 	}
@@ -83,7 +71,7 @@ public class Executer {
 	 * 
 	 * @param iconFileName path al icono a ejecutar
 	 */
-	public void executeIcon(String iconFileName, String clickType) throws HeadlessException, IOException {
+	private void executeIcon(String iconFileName, String clickType)  {
 		try {
 			// Busco el icono
 			int[] aux = searchIcon(iconFileName);
@@ -104,6 +92,7 @@ public class Executer {
 			}
 
 		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 
