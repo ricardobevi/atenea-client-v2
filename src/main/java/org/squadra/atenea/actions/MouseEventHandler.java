@@ -73,6 +73,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 		actionsRecorded.addAction(actionName,clicks);
 	}
 
+	/** Muestra el snapshot de la pantalla cuando se presiona Ctrl */
 	public void nativeKeyPressed(NativeKeyEvent e) {
 		System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
 		if (!controlKeyPressed && NativeKeyEvent.getKeyText(e.getKeyCode()) == "Ctrl")
@@ -124,7 +125,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 		X1 = X2 = Y1 = Y2 = -1;
 	}
 
-
+	/** Se guarda el icono seleccionado al soltar el click */
 	public void nativeMouseReleased(NativeMouseEvent e) {
 
 		X2 = e.getX();
@@ -161,7 +162,8 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 		frame.repaint();
 	}
 
-	@Override
+	
+	/** Se cierra la ventana del snapshot al soltar Ctrl */
 	public void nativeKeyReleased(NativeKeyEvent e) {
 		if (NativeKeyEvent.getKeyText(e.getKeyCode()) == "Ctrl")
 		{
@@ -170,7 +172,6 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 		}
 	}
 
-	@Override
 	public void nativeKeyTyped(NativeKeyEvent arg0) {
 	}
 
