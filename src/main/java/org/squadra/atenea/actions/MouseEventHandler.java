@@ -64,7 +64,6 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 		frame.setSize(xSize,ySize);  
 		frame.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 		frame.setUndecorated(true);  
-		//frame.setModal(true);
 	}
 
 	/*
@@ -75,7 +74,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 	}
 
 	public void nativeKeyPressed(NativeKeyEvent e) {
-System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
+		System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
 		if (!controlKeyPressed && NativeKeyEvent.getKeyText(e.getKeyCode()) == "Ctrl")
 		{
 			controlKeyPressed = true; 
@@ -90,7 +89,7 @@ System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
 				public void paint(Graphics g) {
 					super.paint(g);
 					g.drawImage(screen, 0, 0, getWidth(), getHeight(), this);
-					
+
 					if (X1 != -1 && X2 != -1)
 					{
 						Graphics2D graph = (Graphics2D) g;
@@ -102,14 +101,10 @@ System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
 					}
 				}
 			});
-			
-//			try {
-//				new Robot().keyPress(KeyEvent.VK_ESCAPE);
-//				new Robot().keyRelease(KeyEvent.VK_ESCAPE);
-//			} catch (AWTException e1) {
-//				e1.printStackTrace();
-//			}
-			
+
+			frame.setAlwaysOnTop(true);
+			frame.toFront();
+			frame.requestFocus();				
 			frame.setVisible(true);	
 		}
 	}
@@ -121,7 +116,7 @@ System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
 
 		X1 = e.getX();
 		Y1 = e.getY();
-		
+
 		System.out.println("primer click "+X1+ "  "+Y1);
 	}
 
@@ -150,7 +145,7 @@ System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
 			X1 = X2 = Y1 = Y2 = -1;
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
+//			ex.printStackTrace();
 		}
 
 	}
@@ -159,7 +154,7 @@ System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
 	}
 
 	public void nativeMouseDragged(NativeMouseEvent e) {
-		
+
 		X2 = e.getX();
 		Y2 = e.getY();
 
