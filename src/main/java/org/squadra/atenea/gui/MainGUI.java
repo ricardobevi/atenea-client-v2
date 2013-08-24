@@ -605,7 +605,7 @@ public class MainGUI extends JFrame {
 	 * Abre la pantalla de grabacion de macros.
 	 */
 	protected void actionsButtonMouseClicked() {
-		ActionsGUI win = new ActionsGUI();
+		ActionsGUIPrototype win = new ActionsGUIPrototype();
 		win.launchFrame();
 		Atenea.getInstance().setState(AteneaState.LEARNING);
 	}
