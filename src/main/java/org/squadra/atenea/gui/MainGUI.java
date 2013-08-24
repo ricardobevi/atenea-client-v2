@@ -11,8 +11,6 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -109,7 +107,7 @@ public class MainGUI extends JFrame {
 	private void initComponents() {
 		
 		//=================== PROPIEDADES DE LA VENTANA =====================
-		
+
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (Exception e) {
@@ -122,7 +120,6 @@ public class MainGUI extends JFrame {
 		setBackground(new Color(0,0,0,0));
 		setIconImage(Resources.Images.ateneaIcon);
 		setLocationRelativeTo(null);
-		setVisible(true);
 		setResizable(false);
 		setAlwaysOnTop(true); //TODO: leer de archivo config
 		
@@ -533,13 +530,17 @@ public class MainGUI extends JFrame {
 		layeredPane.add(lblRateButton, new Integer(4));
 		layeredPane.add(lblInputButton, new Integer(4));
 		layeredPane.add(lblHistoryButton, new Integer(4));
+		
+		// Hago visible la GUI una vez que termino de cargar todos los componentes
+		setVisible(true);
 	}
 	
 	
 	/**
 	 * Se ejecuta presionando sobre el boton principal.
-	 * 
-	 * 
+	 * Si esta en estado de espera, comineza la grabacion.
+	 * Si esta en estado grabando, detiene la grabacion y comienza el reconocimiento.
+	 * Si esta en otro estado, no hace nada.
 	 */
 	protected void mainButtonMouseClicked() {
 		if (atenea.getState() == AteneaState.WAITING) {

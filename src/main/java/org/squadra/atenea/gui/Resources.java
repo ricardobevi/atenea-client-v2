@@ -27,6 +27,7 @@ public class Resources {
 			private static final String BG_PATH = IMAGES_PATH + "backgrounds/";
 			
 			public static final ImageIcon main = new ImageIcon(BG_PATH + "main_background.png");
+			public static final ImageIcon actions = new ImageIcon(BG_PATH + "actions_background.png");
 		}
 		
 		public static class MainButton {
@@ -192,6 +193,32 @@ public class Resources {
 			
 			public static final ImageIcon grey = new ImageIcon(BUTTON_PATH + "input_grey.png");
 			public static final ImageIcon light_grey = new ImageIcon(BUTTON_PATH + "input_light_grey.png");
+		}
+		
+		public static class PlayButton {
+			
+			private static final String BUTTON_PATH = IMAGES_PATH + "play_button/";
+			
+			public static final ImageIcon grey = new ImageIcon(BUTTON_PATH + "play_grey.png");
+			public static final ImageIcon blue = new ImageIcon(BUTTON_PATH + "play_blue.png");
+		}
+		
+		public static class RecordButton {
+			
+			private static final String BUTTON_PATH = IMAGES_PATH + "record_button/";
+			
+			public static final ImageIcon grey = new ImageIcon(BUTTON_PATH + "record_grey.png");
+			public static final ImageIcon blue = new ImageIcon(BUTTON_PATH + "record_blue.png");
+			public static final ImageIcon red = new ImageIcon(BUTTON_PATH + "record_red.png");
+		}
+		
+		public static class StopButton {
+			
+			private static final String BUTTON_PATH = IMAGES_PATH + "stop_button/";
+			
+			public static final ImageIcon grey = new ImageIcon(BUTTON_PATH + "stop_grey.png");
+			public static final ImageIcon blue = new ImageIcon(BUTTON_PATH + "stop_blue.png");
+			public static final ImageIcon red = new ImageIcon(BUTTON_PATH + "stop_red.png");
 		}
 		
 	}
