@@ -142,7 +142,6 @@ public class ActionsGUIPrototype {
 		f.getContentPane().add(pnlNorth, BorderLayout.NORTH);
 		f.getContentPane().add(pnlSouth, BorderLayout.SOUTH);
 		f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
 	}
 
 

@@ -17,7 +17,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 import org.squadra.atenea.Atenea;
+import org.squadra.atenea.actions.Executer;
+import org.squadra.atenea.actions.ListOfAction;
+import org.squadra.atenea.actions.MouseEventHandler;
 
 /**
  * Interfaz de usuario utilizada para grabar macros.
@@ -33,6 +38,15 @@ public class ActionsGUI extends JFrame {
 	
 	/** Singleton */
 	private static ActionsGUI INSTANCE = null;
+	
+	/** Manejador de eventos del mouse */
+	private MouseEventHandler mouseHandler;
+	
+	/** Ejecutador de acciones */
+	private Executer executer = new Executer();
+	
+	/** Variable que indica si se esta grabando */
+	private boolean isRecording;
 	
 	/**
 	 * Crea una instancia de la interfaz, y si ya existe la devuelve
@@ -289,6 +303,8 @@ public class ActionsGUI extends JFrame {
 		
 		// Hago visible la GUI una vez que termino de cargar todos los componentes
 		setVisible(true);
+		
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
 	
@@ -297,6 +313,8 @@ public class ActionsGUI extends JFrame {
 	 * Cierra el programa
 	 */
 	protected void closeButtonMouseClicked() {
+		ListOfAction.getInstance().writeToFile();
+		INSTANCE = null;
 		dispose();
 	}
 	
@@ -314,7 +332,47 @@ public class ActionsGUI extends JFrame {
 	 * Si esta en estado grabando, detiene la grabacion de la macro.
 	 */
 	protected void recordButtonMouseClicked() {
-		// TODO Auto-generated method stub
+		
+		// Si está grabando una accion -> detiene la grabacion
+		if (isRecording)
+		{
+			mouseHandler.finish();
+
+			// Termino el proceso de captura de clicks
+			GlobalScreen.getInstance().removeNativeMouseListener(mouseHandler);
+			GlobalScreen.getInstance().removeNativeMouseMotionListener(mouseHandler);
+			GlobalScreen.getInstance().removeNativeKeyListener(mouseHandler);
+			GlobalScreen.unregisterNativeHook();
+
+			isRecording = false;			
+			System.out.println("Fin de captura");
+		}
+		else
+		{
+			// Comienza la grabacion de acciones
+			try {
+				Thread.sleep(500);
+				setExtendedState(JFrame.ICONIFIED);
+
+				GlobalScreen.registerNativeHook();
+
+				mouseHandler = new MouseEventHandler(txtActionName.getText(), (String) comboActionType.getSelectedItem()) ;
+						
+
+			} catch (NativeHookException ex) {
+				System.err.println("There was a problem registering the native hook.");
+				System.err.println(ex.getMessage());
+				System.exit(1);
+			} catch (Exception e1) {
+			}
+			// Inicio el proceso de captura de clicks
+			GlobalScreen.getInstance().addNativeMouseListener(mouseHandler);
+			GlobalScreen.getInstance().addNativeMouseMotionListener(mouseHandler);
+			GlobalScreen.getInstance().addNativeKeyListener(mouseHandler);
+
+			isRecording = true;			
+			System.out.println("Inicio de captura");
+		}
 	}
 	
 	/**
@@ -322,7 +380,26 @@ public class ActionsGUI extends JFrame {
 	 * Reproduce la ultima accion grabada.
 	 */
 	protected void playButtonMouseClicked() {
-		// TODO Auto-generated method stub
+		try {
+			Thread.sleep(500);
+			this.setExtendedState(JFrame.ICONIFIED);
+		} catch (InterruptedException e2) {
+			e2.printStackTrace();
+		}
+		System.out.println("Reproduciendo...");
+		// Saco los espacios introducidos en el textbox
+		String names = txtActionName.getText().replaceAll("\\ ", "");
+		String[] files = null;
+
+		// Separo las acciones con '+'
+		// Ej: Word + word_pegar
+		if (names.contains("+")) {
+			files = names.split("\\+");
+		} else {
+			files = new String[1];
+			files[0] = names;
+		}
+		executer.execute(files);
 	}
 	
 	/**
