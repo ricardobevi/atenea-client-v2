@@ -293,7 +293,7 @@ public class MainGUIPrototype extends JFrame {
 		btnNuevaAccion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setExtendedState(JFrame.ICONIFIED);
-				ActionsGUI win = new ActionsGUI();
+				ActionsGUIPrototype win = new ActionsGUIPrototype();
 				win.launchFrame();
 			}
 		});
