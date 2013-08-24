@@ -24,13 +24,16 @@ import com.googlecode.javacv.cpp.opencv_core.CvPoint;
 import com.googlecode.javacv.cpp.opencv_core.CvScalar;
 import com.googlecode.javacv.cpp.opencv_core.IplImage;
 
-
+/**
+ * @brief Clase que ejecuta acciones sobre la pantalla
+ * @author Lucas
+ */
 public class Executer {
-	
+
 	private File dir = new File("images");
 	private ListOfAction actionsRecorded;
 	private Robot robot;
-	
+
 	public Executer() {
 		actionsRecorded = ListOfAction.getInstance();
 		try {
@@ -40,17 +43,6 @@ public class Executer {
 		}
 	}
 
-	public static void clickIn(int x, int y, String typeOfClick) {
-		try {
-			Robot myRobot = new Robot();
-			myRobot.mouseMove(x, y);
-			if (typeOfClick != "Click") {
-				myRobot.mousePress(InputEvent.BUTTON1_MASK);
-				myRobot.mouseRelease(InputEvent.BUTTON1_MASK);
-			}
-		} catch (Exception e) {
-		}
-	}
 
 	/*
 	 * Ejecuta las acciones indicadas
@@ -84,7 +76,13 @@ public class Executer {
 				simpleClick();
 				// Espero medio segundo antes de hacer otro click
 				Thread.sleep(500);
-			} else {
+			} 
+			else if (clickType.equals("Click derecho")) 
+			{
+				rightClick();
+			}
+			else
+			{
 				doubleClick();
 				// Espero dos segundos antes de hacer otro click, porque puedo
 				// estar abriendo un programa
@@ -94,6 +92,15 @@ public class Executer {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	/**
+	 * Hace click derecho donde se encuentra el cursor
+	 */
+	private void rightClick()
+	{
+		robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
+		robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
 	}
 
 	/*

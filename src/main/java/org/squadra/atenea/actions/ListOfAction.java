@@ -19,22 +19,29 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-
+/**
+ * @brief Clase que almacena acciones
+ * @author Lucas
+ *
+ */
 public class ListOfAction {
 
 	private static HashMap<String, List<Click>> clicks ;
 	private static ListOfAction INSTANCE = null;
 
 
+	/** Agrega una accion al conjunto */
 	public void addAction(String actionName, List<Click> listOfClicks)
 	{
 		clicks.put(actionName, listOfClicks);
 	}
 
+	/** Devuelve el conjunto de clicks relacionados a la accion */
 	public List<Click> getAction(String actionName) {
 		return clicks.get(actionName);
 	}
 
+	/** Carga las acciones almacenadas en los archivos de configuracion */
 	private ListOfAction() {
 		File dir = new File("images");
 		if (!dir.exists())
@@ -90,6 +97,7 @@ public class ListOfAction {
 		return createInstance();		
 	}
 
+	/** Guarda las acciones en el archivo */
 	public void writeToFile()
 	{
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
