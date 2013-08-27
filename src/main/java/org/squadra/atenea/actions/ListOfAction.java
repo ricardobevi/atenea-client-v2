@@ -19,29 +19,27 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-/**
- * @brief Clase que almacena acciones
- * @author Lucas
- *
- */
+
 public class ListOfAction {
 
 	private static HashMap<String, List<Click>> clicks ;
+	private static HashMap<String, String> commands = new HashMap<String, String>();
 	private static ListOfAction INSTANCE = null;
 
 
-	/** Agrega una accion al conjunto */
 	public void addAction(String actionName, List<Click> listOfClicks)
 	{
 		clicks.put(actionName, listOfClicks);
 	}
 
-	/** Devuelve el conjunto de clicks relacionados a la accion */
 	public List<Click> getAction(String actionName) {
 		return clicks.get(actionName);
 	}
+	
+	public String getCommand(String command) {
+		return commands.get(command);
+	}
 
-	/** Carga las acciones almacenadas en los archivos de configuracion */
 	private ListOfAction() {
 		File dir = new File("images");
 		if (!dir.exists())
@@ -68,7 +66,7 @@ public class ListOfAction {
 			clicks = gson.fromJson(br,  new TypeToken<HashMap<String, List<Click>>>(){}.getType());
 			if (clicks == null)
 				clicks = new HashMap<String, List<Click>>();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,6 +75,36 @@ public class ListOfAction {
 			try {
 				br.close();
 				fr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		File archivoCommands = new File("commands.txt");
+		if (!archivoCommands.exists())
+		{
+			try {
+				archivoCommands.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		BufferedReader br2 = null;
+		try{
+			br2 = new BufferedReader(new FileReader("commands.txt"));
+			String line;
+			while ((line = br2.readLine()) != null) {
+				String a[] = line.split(",");
+				commands.put(a[0], a[1]);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally
+		{
+			try {
+				br2.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -97,7 +125,6 @@ public class ListOfAction {
 		return createInstance();		
 	}
 
-	/** Guarda las acciones en el archivo */
 	public void writeToFile()
 	{
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -109,5 +136,4 @@ public class ListOfAction {
 			e.printStackTrace();
 		}
 	}
-
 }
