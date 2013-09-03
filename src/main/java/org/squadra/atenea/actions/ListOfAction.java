@@ -47,7 +47,7 @@ public class ListOfAction {
 			dir.mkdir();
 		}
 
-		File archivo = new File("images" + File.separatorChar + "actions.txt");
+		File archivo = new File("images" + File.separatorChar + "actions.json");
 		if (!archivo.exists())
 		{
 			try {
@@ -129,7 +129,7 @@ public class ListOfAction {
 	{
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		try {
-			FileWriter writer = new FileWriter("images" + File.separatorChar + "actions.txt");
+			FileWriter writer = new FileWriter("images" + File.separatorChar + "actions.json");
 			writer.write(gson.toJson(clicks));
 			writer.close();
 		} catch (Exception e) {
