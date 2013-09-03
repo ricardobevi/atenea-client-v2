@@ -563,7 +563,7 @@ public class MainGUI extends JFrame {
 	 * Se ejecuta presionando sobre el boton de minimizar.
 	 * Minimiza la aplicacion, creando un icono en la barra de tareas.
 	 */
-	protected void minimizeButtonMouseClicked() {
+	public void minimizeButtonMouseClicked() {
 		try {
 			tray.add(trayIcon);
 		} catch (AWTException e) {

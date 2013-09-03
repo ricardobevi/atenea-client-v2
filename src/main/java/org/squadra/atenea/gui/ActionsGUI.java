@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.squadra.atenea.Atenea;
+import org.squadra.atenea.AteneaState;
 import org.squadra.atenea.actions.Executer;
 import org.squadra.atenea.actions.ListOfAction;
 import org.squadra.atenea.actions.MouseEventHandler;
@@ -315,6 +316,7 @@ public class ActionsGUI extends JFrame {
 	protected void closeButtonMouseClicked() {
 		ListOfAction.getInstance().writeToFile();
 		INSTANCE = null;
+		Atenea.getInstance().setState(AteneaState.WAITING);
 		dispose();
 	}
 	
