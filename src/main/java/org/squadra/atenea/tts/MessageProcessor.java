@@ -45,9 +45,11 @@ public class MessageProcessor {
 		System.out.println(message.getType());
 		// Si es una orden la ejecuto
 		if(message.getType() == Message.ORDER) {
+			MainGUI.getInstance().minimizeButtonMouseClicked();
 			processOrder(message.getOrder());
 		}
 
+		
 
 
 		// Agrego un item al historial
