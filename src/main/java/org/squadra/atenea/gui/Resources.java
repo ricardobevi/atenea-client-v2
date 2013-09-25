@@ -22,12 +22,36 @@ public class Resources {
 		public static final Image ateneaIcon = 
 				Toolkit.getDefaultToolkit().getImage(IMAGES_PATH + "icon.png");
 		
+		public static class TrayIcon {
+			
+			private static final String ICON_PATH = IMAGES_PATH + "tray_icon/";
+			
+			public static final Image red = Toolkit.getDefaultToolkit().getImage(ICON_PATH + "icon_red.png");
+			public static final Image green = Toolkit.getDefaultToolkit().getImage(ICON_PATH + "icon_green.png");
+			public static final Image orange = Toolkit.getDefaultToolkit().getImage(ICON_PATH + "icon_orange.png");
+			public static final Image blue = Toolkit.getDefaultToolkit().getImage(ICON_PATH + "icon_blue.png");
+			public static final Image yellow = Toolkit.getDefaultToolkit().getImage(ICON_PATH + "icon_yellow.png");
+			
+			public static Image getByColor(Colors color) {
+				switch (color) {
+					case RED: return red;
+					case GREEN: return green;
+					case ORANGE: return orange;
+					case BLUE: return blue;
+					case YELLOW: return yellow;
+					default: return green;
+				}
+			}
+		}
+
 		public static class Backgrounds {
 			
 			private static final String BG_PATH = IMAGES_PATH + "backgrounds/";
 			
 			public static final ImageIcon main = new ImageIcon(BG_PATH + "main_background.png");
 			public static final ImageIcon actions = new ImageIcon(BG_PATH + "actions_background.png");
+			public static final ImageIcon splash = new ImageIcon(BG_PATH + "splash_background.png");
+			public static final ImageIcon splash_beta = new ImageIcon(BG_PATH + "splash_beta_background.png");
 		}
 		
 		public static class MainButton {
@@ -89,6 +113,9 @@ public class Resources {
 					default: return grey;
 				}
 			}
+			
+			public static final ImageIcon grey_mini = new ImageIcon(BUTTON_PATH + "close_grey_mini.png");
+			public static final ImageIcon blue_mini = new ImageIcon(BUTTON_PATH + "close_blue_mini.png");
 		}
 		
 		public static class MinimizeButton {
