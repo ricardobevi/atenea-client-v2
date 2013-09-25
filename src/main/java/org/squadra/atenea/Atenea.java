@@ -8,6 +8,7 @@ import org.squadra.atenea.ateneacommunication.AteneaWs;
 import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.gui.MainGUI;
 import org.squadra.atenea.gui.MainGUIPrototype;
+import org.squadra.atenea.gui.SplashGUI;
 import org.squadra.atenea.history.History;
 import org.squadra.atenea.stt.Microphone;
 import org.squadra.atenea.util.StaticMethods;
@@ -76,10 +77,12 @@ public @Data class Atenea {
 	private Atenea() {
 		
 		// ACA HAY QUE CARGAR LA CONFIGURACION DEL SISTEMA
+		SplashGUI.getInstance().setProgressBarPercent(50, "Cargando configuración de usuario...");
 		this.waveFilePath = Resources.Audio.inputVoicePath;
 		this.languageCode = "es-ES";
 		this.user = "Usuario";
 		
+		SplashGUI.getInstance().setProgressBarPercent(70, "Cargando historial...");
 		this.history = new History(Resources.HistoryElements.jsonPath);
 		this.history.loadHistoryFile();
 		
@@ -92,6 +95,7 @@ public @Data class Atenea {
 	 * @author Leandro Morrone
 	 */
 	public void launchMainGUI() {
+		SplashGUI.getInstance().setProgressBarPercent(90, "Creando interfaz de usuario...");
 		MainGUI.createInstance();
 		//MainGUIPrototype.createInstance();
 	}

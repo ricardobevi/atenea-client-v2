@@ -126,7 +126,7 @@ public class AudioRecorder {
 					audio.length / format.getFrameSize());
 			AudioSystem.write(ais, fileType, new File(audioFilePath));
 			input.close();
-			System.out.println("Archivo grabado!");
+			System.out.println("Archivo grabado! " + audioFilePath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -10,6 +10,8 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
@@ -274,7 +276,15 @@ public class MainGUI extends JFrame {
 					closeButtonMouseClicked();
 				}
 			});
+			MenuItem item6 = new MenuItem("Enseñar acción");
+			item6.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					actionsButtonMouseClicked();
+				}
+			});
 			trayMenu.add(item1);
+			trayMenu.add(item6);
 			trayMenu.addSeparator();
 			trayMenu.add(item2);
 			trayMenu.add(item3);
@@ -282,7 +292,7 @@ public class MainGUI extends JFrame {
 			trayMenu.add(item5);
 			
 			// Creo el icono y le agrego maximizacion haciendo doble click
-			trayIcon = new TrayIcon(Resources.Images.ateneaIcon, "Atenea", trayMenu);
+			trayIcon = new TrayIcon(Resources.Images.TrayIcon.getByColor(guiColor), "Atenea", trayMenu);
 			trayIcon.setImageAutoSize(true);
 			trayIcon.addMouseListener(new java.awt.event.MouseAdapter() {
 				@Override
@@ -482,6 +492,14 @@ public class MainGUI extends JFrame {
 				txtAreaLight(cpInput, false);
             }
         });
+		txtInput.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent event) {
+				if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+					inputButtonMouseClicked();
+				}
+			}
+		});
 		
 		//====================== TEXTAREA DE SALIDA =========================
 		
@@ -605,7 +623,9 @@ public class MainGUI extends JFrame {
 	 * Abre la pantalla de grabacion de macros.
 	 */
 	protected void actionsButtonMouseClicked() {
-		minimizeButtonMouseClicked();
+		if (getExtendedState() != JFrame.ICONIFIED) {
+			minimizeButtonMouseClicked();
+		}
 		ActionsGUI.createInstance();
 		Atenea.getInstance().setState(AteneaState.LEARNING);
 	}
@@ -722,7 +742,7 @@ public class MainGUI extends JFrame {
 		else {
 			lblMainButton.setIcon(Resources.Images.MainButton.getByColor(guiColor));
 		}
-		//TODO: cambiar los colores del trayIcon
+		trayIcon.setImage(Resources.Images.TrayIcon.getByColor(guiColor));
 		
 		if (state == AteneaState.WAITING) {
 			txtInput.setBackground(Color.WHITE);
