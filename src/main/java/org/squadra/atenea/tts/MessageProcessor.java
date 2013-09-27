@@ -28,28 +28,10 @@ public class MessageProcessor {
 
 		String outputText = message.getText();
 
-		// Muestro por pantalla el mensaje de salida
-		MainGUI.getInstance().setTxtOutput(outputText);
-		//MainGUIPrototype.getInstance().setTxtSalida(outputText);
-
-		// Reproduzco el mensaje mostrado
-		Atenea.getInstance().setState(AteneaState.PLAYING);
-		try {
-			PlayTextMessage.play(outputText);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		Atenea.getInstance().setState(AteneaState.WAITING);
-
-		System.out.println(message.getOrder());
-		System.out.println(message.getType());
 		// Si es una orden la ejecuto
 		if(message.getType() == Message.ORDER) {
-			MainGUI.getInstance().minimizeButtonMouseClicked();
 			processOrder(message.getOrder());
 		}
-
-		
 
 
 		// Agrego un item al historial
@@ -77,20 +59,69 @@ public class MessageProcessor {
 	}
 
 	/** Busca la orden o comando en el archivo JSON y la ejecuta */
-	private static void processOrder(String orden) {
+	private static void processOrder(final String orden) {
 		System.out.println(orden);
 		if (ListOfAction.getInstance().getAction(orden) != null)
 		{
-			System.out.println("Estoy ejecutando una accion");
-			new Executer().execute(new String[]{orden});
+			MainGUI.getInstance().minimizeButtonMouseClicked();	
+			
+			Runnable myRunnable = new Runnable(){
+
+				public void run(){
+					new Executer().execute(new String[]{orden});
+				}
+			};
+			
+			Thread thread = new Thread(myRunnable);
+			thread.start();
+			
+			// Muestro por pantalla el mensaje de salida
+			MainGUI.getInstance().setTxtOutput("Entendido");
+			Atenea.getInstance().setState(AteneaState.PLAYING);
+
+			try {
+				PlayTextMessage.play("Entendido");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Atenea.getInstance().setState(AteneaState.WAITING);
+			
 		}
-		else
+		else if (ListOfAction.getInstance().getCommand(orden) != null)
 		{
-			System.out.println("Estoy ejecutando un script");
+			// Muestro por pantalla el mensaje de salida
+			MainGUI.getInstance().setTxtOutput("Entendido");
+
+			Atenea.getInstance().setState(AteneaState.PLAYING);
+			try {
+				PlayTextMessage.play("Entendido");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Atenea.getInstance().setState(AteneaState.WAITING);
+			
+			MainGUI.getInstance().minimizeButtonMouseClicked();
+
 			Command cmd = new Command(Atenea.SO_NAME, 
 					ListOfAction.getInstance().getCommand(orden), 
 					"./salida.txt");
 			cmd.run();
+		}
+		else 
+		{
+			MainGUI.getInstance().setTxtOutput("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
+
+			//Accion desconocia. Pido enseñarla
+			Atenea.getInstance().setState(AteneaState.PLAYING);
+			try {
+				PlayTextMessage.play("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Atenea.getInstance().setState(AteneaState.WAITING);
+
+			MainGUI.getInstance().actionsButtonMouseClicked();
 		}
 	}
 
