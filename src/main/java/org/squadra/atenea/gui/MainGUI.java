@@ -596,7 +596,7 @@ public class MainGUI extends JFrame {
 	 * el item de maximizar del menu.
 	 * Maximiza la aplicacion.
 	 */
-	protected void maximizeButtonMouseClicked() {
+	public void maximizeButtonMouseClicked() {
 		tray.remove(trayIcon);
 		setVisible(true);
 		setExtendedState(JFrame.NORMAL);
@@ -622,7 +622,7 @@ public class MainGUI extends JFrame {
 	 * Se ejecuta presionando sobre el boton de nueva accion.
 	 * Abre la pantalla de grabacion de macros.
 	 */
-	protected void actionsButtonMouseClicked() {
+	public void actionsButtonMouseClicked() {
 		if (getExtendedState() != JFrame.ICONIFIED) {
 			minimizeButtonMouseClicked();
 		}

@@ -317,6 +317,7 @@ public class ActionsGUI extends JFrame {
 		ListOfAction.getInstance().writeToFile();
 		INSTANCE = null;
 		Atenea.getInstance().setState(AteneaState.WAITING);
+		MainGUI.getInstance().maximizeButtonMouseClicked();
 		dispose();
 	}
 	
