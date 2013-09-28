@@ -29,8 +29,11 @@ public class MessageProcessor {
 		String outputText = message.getText();
 
 		// Si es una orden la ejecuto
-		if(message.getType() == Message.ORDER) {
+		if (message.getType() == Message.ORDER) {
 			processOrder(message.getOrder());
+		}
+		else {
+			showAndSpeak(outputText);
 		}
 
 
@@ -65,40 +68,23 @@ public class MessageProcessor {
 		{
 			MainGUI.getInstance().minimizeButtonMouseClicked();	
 			
-			Runnable myRunnable = new Runnable(){
+			Runnable executerThread = new Runnable() {
 
 				public void run(){
 					new Executer().execute(new String[]{orden});
 				}
 			};
 			
-			Thread thread = new Thread(myRunnable);
-			thread.start();
+			new Thread(executerThread).start();
 			
 			// Muestro por pantalla el mensaje de salida
-			MainGUI.getInstance().setTxtOutput("Entendido");
-			Atenea.getInstance().setState(AteneaState.PLAYING);
-
-			try {
-				PlayTextMessage.play("Entendido");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Atenea.getInstance().setState(AteneaState.WAITING);
+			showAndSpeak("Entendido");
 			
 		}
 		else if (ListOfAction.getInstance().getCommand(orden) != null)
 		{
 			// Muestro por pantalla el mensaje de salida
-			MainGUI.getInstance().setTxtOutput("Entendido");
-
-			Atenea.getInstance().setState(AteneaState.PLAYING);
-			try {
-				PlayTextMessage.play("Entendido");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Atenea.getInstance().setState(AteneaState.WAITING);
+			showAndSpeak("Entendido");
 			
 			MainGUI.getInstance().minimizeButtonMouseClicked();
 
@@ -109,20 +95,32 @@ public class MessageProcessor {
 		}
 		else 
 		{
-			MainGUI.getInstance().setTxtOutput("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
-
 			//Accion desconocia. Pido enseñarla
-			Atenea.getInstance().setState(AteneaState.PLAYING);
-			try {
-				PlayTextMessage.play("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
-				Thread.sleep(1000);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Atenea.getInstance().setState(AteneaState.WAITING);
-
+			showAndSpeak("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
 			MainGUI.getInstance().actionsButtonMouseClicked();
 		}
+	}
+	
+	
+	public static void showAndSpeak (final String text) {
+		// Muestro por pantalla el mensaje de salida
+		MainGUI.getInstance().setTxtOutput(text);
+		Atenea.getInstance().setState(AteneaState.PLAYING);
+
+		Runnable playThread = new Runnable() {
+
+			public void run(){
+				try {
+					PlayTextMessage.play(text);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		
+		new Thread(playThread).start();
+			
+		Atenea.getInstance().setState(AteneaState.WAITING);
 	}
 
 }
