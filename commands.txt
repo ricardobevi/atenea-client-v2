@@ -1,0 +1,4 @@
+abrir bloc de notas,notepad.exe
+cerrar bloc de notas,taskkill /IM notepad.exe
+abrir panel de control,control
+abrir administrador de tareas,taskmgr
