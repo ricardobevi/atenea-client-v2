@@ -1,5 +1,6 @@
 package org.squadra.atenea.tts;
 
+import java.net.InetAddress;
 import java.util.Date;
 
 import org.squadra.atenea.Atenea;
@@ -105,22 +106,22 @@ public class MessageProcessor {
 	public static void showAndSpeak (final String text) {
 		// Muestro por pantalla el mensaje de salida
 		MainGUI.getInstance().setTxtOutput(text);
-		Atenea.getInstance().setState(AteneaState.PLAYING);
 
 		Runnable playThread = new Runnable() {
 
 			public void run(){
+				Atenea.getInstance().setState(AteneaState.PLAYING);
 				try {
 					PlayTextMessage.play(text);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				Atenea.getInstance().setState(AteneaState.WAITING);
 			}
 		};
 		
 		new Thread(playThread).start();
 			
-		Atenea.getInstance().setState(AteneaState.WAITING);
 	}
 
 }

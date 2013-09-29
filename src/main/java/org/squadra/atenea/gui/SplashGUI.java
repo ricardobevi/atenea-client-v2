@@ -87,7 +87,7 @@ public class SplashGUI extends JFrame {
 		
 		lblBackground = new JLabel();
 		lblBackground.setIcon(Resources.Images.Backgrounds.splash_beta);
-		lblBackground.setBorder(new LineBorder(Color.BLACK, 1));
+		lblBackground.setBorder(new LineBorder(Color.GRAY, 1));
 		lblBackground.setBounds(0, 0, 
 				lblBackground.getIcon().getIconWidth(), 
 				lblBackground.getIcon().getIconHeight());
