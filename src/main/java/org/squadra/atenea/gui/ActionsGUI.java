@@ -17,6 +17,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+import lombok.extern.log4j.Log4j;
+
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.squadra.atenea.Atenea;
@@ -29,13 +31,12 @@ import org.squadra.atenea.actions.MouseEventHandler;
  * Interfaz de usuario utilizada para grabar macros.
  * Esta estructurada con Java Swing.
  * @author Leandro Morrone
+ * @author Lucas Paradisi
  *
  */
+@Log4j
 @SuppressWarnings("serial")
 public class ActionsGUI extends JFrame {
-
-	/** Objeto que contiene las variables de configuracion y estado del sistema */
-	private Atenea atenea = Atenea.getInstance();
 	
 	/** Singleton */
 	private static ActionsGUI INSTANCE = null;
@@ -88,6 +89,7 @@ public class ActionsGUI extends JFrame {
 	private JLabel lblPlayButton;
 	private JLabel lblHelpButton;
 	private JLabel lblCloseButton;
+	private JLabel lblState;
 	private JTextField txtActionName;
 	private JComboBox<String> comboActionType;
 	
@@ -105,7 +107,7 @@ public class ActionsGUI extends JFrame {
 			e.printStackTrace();
 		}
 		setTitle("Atenea - "); //TODO: poner el AteneaState en el titulo
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setUndecorated(true);
 		setSize(379, 100);
 		setBackground(new Color(0,0,0,0));
@@ -205,11 +207,19 @@ public class ActionsGUI extends JFrame {
             }
 			@Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-				lblRecordButton.setIcon(Resources.Images.RecordButton.red);
+				if (isRecording) {
+					lblRecordButton.setIcon(Resources.Images.StopButton.blue);
+				} else {
+					lblRecordButton.setIcon(Resources.Images.RecordButton.red);
+				}
             }
 			@Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-				lblRecordButton.setIcon(Resources.Images.RecordButton.grey);
+				if (isRecording) {
+					lblRecordButton.setIcon(Resources.Images.StopButton.grey);
+				} else {
+					lblRecordButton.setIcon(Resources.Images.RecordButton.grey);
+				}
             }
         });
 		
@@ -287,6 +297,11 @@ public class ActionsGUI extends JFrame {
 		comboActionType.setBorder(new LineBorder(new Color(175, 175, 175), 3));
 		comboActionType.setBounds(248, 18, 112, 31);
 		
+		//====================== TEXTO CON EL ESTADO ========================
+		
+		lblState = new JLabel("");
+		lblState.setBounds(130, 58, 150, 25);
+		
 		
 		//===================================================================
 		// Agrego todos los elementos a la interfaz en diferentes capas
@@ -298,6 +313,7 @@ public class ActionsGUI extends JFrame {
 		layeredPane.add(lblHelpButton, new Integer(2));
 		layeredPane.add(lblRecordButton, new Integer(2));
 		layeredPane.add(lblPlayButton, new Integer(2));
+		layeredPane.add(lblState, new Integer(2));
 		
 		layeredPane.add(txtActionName, new Integer(3));
 		layeredPane.add(comboActionType, new Integer(3));
@@ -305,7 +321,6 @@ public class ActionsGUI extends JFrame {
 		// Hago visible la GUI una vez que termino de cargar todos los componentes
 		setVisible(true);
 		
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
 	
@@ -314,6 +329,9 @@ public class ActionsGUI extends JFrame {
 	 * Cierra el programa
 	 */
 	protected void closeButtonMouseClicked() {
+		if (isRecording) {
+			stopActionRecord();
+		}
 		ListOfAction.getInstance().writeToFile();
 		INSTANCE = null;
 		Atenea.getInstance().setState(AteneaState.WAITING);
@@ -336,46 +354,65 @@ public class ActionsGUI extends JFrame {
 	 */
 	protected void recordButtonMouseClicked() {
 		
-		// Si está grabando una accion -> detiene la grabacion
+		// Si esta grabando una accion -> detiene la grabacion
 		if (isRecording)
 		{
-			mouseHandler.finish();
-
-			// Termino el proceso de captura de clicks
-			GlobalScreen.getInstance().removeNativeMouseListener(mouseHandler);
-			GlobalScreen.getInstance().removeNativeMouseMotionListener(mouseHandler);
-			GlobalScreen.getInstance().removeNativeKeyListener(mouseHandler);
-			GlobalScreen.unregisterNativeHook();
-
-			isRecording = false;			
-			System.out.println("Fin de captura");
+			stopActionRecord();
+			lblRecordButton.setIcon(Resources.Images.RecordButton.red);
+			lblRecordButton.setToolTipText("Iniciar grabación");
+			lblState.setText("Fin de la grabación");
 		}
+		// Si no esta grabando -> comienza la grabacion
 		else
 		{
-			// Comienza la grabacion de acciones
-			try {
-				Thread.sleep(500);
-				setExtendedState(JFrame.ICONIFIED);
-
-				GlobalScreen.registerNativeHook();
-
-				mouseHandler = new MouseEventHandler(txtActionName.getText(), (String) comboActionType.getSelectedItem()) ;
-						
-
-			} catch (NativeHookException ex) {
-				System.err.println("There was a problem registering the native hook.");
-				System.err.println(ex.getMessage());
-				System.exit(1);
-			} catch (Exception e1) {
-			}
-			// Inicio el proceso de captura de clicks
-			GlobalScreen.getInstance().addNativeMouseListener(mouseHandler);
-			GlobalScreen.getInstance().addNativeMouseMotionListener(mouseHandler);
-			GlobalScreen.getInstance().addNativeKeyListener(mouseHandler);
-
-			isRecording = true;			
-			System.out.println("Inicio de captura");
+			initActionRecord();
+			lblRecordButton.setIcon(Resources.Images.StopButton.blue);
+			lblRecordButton.setToolTipText("Detener grabación");
+			lblState.setText("<html><body>Grabando...<br>Mantenga CTRL y seleccione</body></html>");
 		}
+	}
+	
+	/**
+	 * Inicia la grabacion de macros
+	 */
+	private void initActionRecord() {
+		try {
+			Thread.sleep(500);
+			//setExtendedState(JFrame.ICONIFIED);
+			
+			GlobalScreen.registerNativeHook();
+			mouseHandler = new MouseEventHandler(txtActionName.getText(), (String) comboActionType.getSelectedItem()) ;
+					
+		} catch (NativeHookException ex) {
+			log.error("There was a problem registering the native hook.");
+			log.error(ex.getMessage());
+			System.exit(1);
+		} catch (Exception e1) {
+		}
+		
+		// Inicio el proceso de captura de clicks
+		GlobalScreen.getInstance().addNativeMouseListener(mouseHandler);
+		GlobalScreen.getInstance().addNativeMouseMotionListener(mouseHandler);
+		GlobalScreen.getInstance().addNativeKeyListener(mouseHandler);
+
+		isRecording = true;
+		log.debug("Inicio de captura");
+	}
+	
+	/**
+	 * Detiene la grabacion de macros
+	 */
+	private void stopActionRecord() {
+		mouseHandler.finish();
+
+		// Termino el proceso de captura de clicks
+		GlobalScreen.getInstance().removeNativeMouseListener(mouseHandler);
+		GlobalScreen.getInstance().removeNativeMouseMotionListener(mouseHandler);
+		GlobalScreen.getInstance().removeNativeKeyListener(mouseHandler);
+		GlobalScreen.unregisterNativeHook();
+
+		isRecording = false;
+		log.debug("Fin de captura");
 	}
 	
 	/**
