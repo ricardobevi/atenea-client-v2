@@ -30,7 +30,7 @@ import com.googlecode.javacv.cpp.opencv_core.IplImage;
  */
 public class Executer {
 
-	private File dir = new File("images");
+	private File dir = new File("src\\main\\resources\\media\\images\\actions");
 	private ListOfAction actionsRecorded;
 	private Robot robot;
 
