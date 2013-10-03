@@ -1,0 +1,148 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.squadra.atenea</groupId>
+	<artifactId>ateneaClient</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<description>Es el cliente encargado de comunicarse con el webservice</description>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<cxf.version>2.6.3</cxf.version>
+		<main.class>org.squadra.atenea.Main</main.class>
+	</properties>
+
+	<parent>
+		<groupId>AteneaPom</groupId>
+		<artifactId>AteneaPom</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+
+		<!-- Dependencias de Squadra Corp -->
+
+		<dependency>
+			<groupId>org.squadra.atenea</groupId>
+			<artifactId>AteneaCommunication</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.squadra.atenea</groupId>
+			<artifactId>AteneaBase</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- Dependencias externas -->
+
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>javacpp</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>javacv</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>javacv-windows-x86</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>javacv-windows-x64</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>JavaFlacEncoder</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>JLayer</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>JNativeHook</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>opencv-linux-x86</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>opencv-linux-x64</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>opencv-windows-x86</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.squadra.atenea.externaljar</groupId>
+			<artifactId>opencv-windows-x64</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+ 		
+		<!-- CXF DEPENDENCIES -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-bindings-soap</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<!-- Tiene funciones de encoding de texto (ej HTML) -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+            
+		<!-- No se quien lo agrego, no se que hace -->
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+
+	</dependencies>
+
+</project>
