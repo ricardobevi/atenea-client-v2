@@ -8,6 +8,7 @@ import org.squadra.atenea.AteneaState;
 import org.squadra.atenea.actions.Command;
 import org.squadra.atenea.actions.Executer;
 import org.squadra.atenea.actions.ListOfAction;
+import org.squadra.atenea.actions.PreloadAction;
 import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.gui.MainGUI;
 import org.squadra.atenea.history.HistoryItem;
@@ -64,8 +65,19 @@ public class MessageProcessor {
 
 	/** Busca la orden o comando en el archivo JSON y la ejecuta */
 	private static void processOrder(final String orden) {
-		System.out.println(orden);
-		if (ListOfAction.getInstance().getAction(orden) != null)
+		//si es una accion precargada
+		PreloadAction action = ListOfAction.getInstance().getPreLoadAction(orden);
+		if ( action != null)
+		{
+			// Muestro por pantalla el mensaje de salida
+			showAndSpeak("Entendido");
+			
+			MainGUI.getInstance().minimizeButtonMouseClicked();
+			action.execute();
+		}
+		
+		//si es una macro
+		else if (ListOfAction.getInstance().getAction(orden) != null)
 		{
 			MainGUI.getInstance().minimizeButtonMouseClicked();	
 			
@@ -82,6 +94,7 @@ public class MessageProcessor {
 			showAndSpeak("Entendido");
 			
 		}
+		//si es un comando
 		else if (ListOfAction.getInstance().getCommand(orden) != null)
 		{
 			// Muestro por pantalla el mensaje de salida
@@ -94,9 +107,9 @@ public class MessageProcessor {
 					"./salida.txt");
 			cmd.run();
 		}
+		//Accion desconocia. Pido enseñarla
 		else 
 		{
-			//Accion desconocia. Pido enseñarla
 			showAndSpeak("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
 			MainGUI.getInstance().actionsButtonMouseClicked();
 		}
