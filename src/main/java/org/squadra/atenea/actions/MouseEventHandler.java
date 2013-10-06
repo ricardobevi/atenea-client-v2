@@ -25,6 +25,7 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
+import org.squadra.atenea.gui.Resources;
 
 /*
  * Clase que gestiona la captura de clicks en la pantalla
@@ -38,7 +39,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 	private int X1, Y1, X2, Y2;
 	private String clickType;
 	private BufferedImage screen;
-	private File dir = new File("images");
+	private File dir = new File(Resources.Images.Actions.ICONS_PATH);
 	private String actionName;
 	private boolean controlKeyPressed;
 
@@ -131,7 +132,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 		X2 = e.getX();
 		Y2 = e.getY();
 
-		String iconName = dir.toString() + File.separatorChar + "icon" + new java.util.Date().getTime() + ".jpg";
+		String iconName = Resources.Images.Actions.ICONS_PATH + "icon" + new java.util.Date().getTime() + ".jpg";
 
 		try {
 			// guardamos la imagen del icono indicado

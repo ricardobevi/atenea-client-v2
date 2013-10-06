@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.squadra.atenea.Atenea;
 import org.squadra.atenea.gui.MainGUI;
+import org.squadra.atenea.gui.Resources;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -69,17 +70,20 @@ public class ListOfAction {
 	{
 		preloadActions.put("buscar en google", new SearchInGoogle());
 		preloadActions.put("buscar en internet", new SearchInGoogle());
+		preloadActions.put("abrir facebook", new OpenFacebook());
+		preloadActions.put("comenzar dictado", new Dictate());
+
 	}
 	
 	private void loadActionsAndCommandsFromFiles()
 	{
-		File dir = new File("src\\main\\resources\\media\\images\\actions");
+		File dir = new File(Resources.Images.Actions.PATH);
 		if (!dir.exists())
 		{
 			dir.mkdir();
 		}
 
-		File archivo = new File("src\\main\\resources\\media\\images\\actions" + File.separatorChar + "actions.json");
+		File archivo = new File(Resources.Images.Actions.actions_file);
 		if (!archivo.exists())
 		{
 			try {
@@ -112,7 +116,7 @@ public class ListOfAction {
 			}
 		}
 
-		File archivoCommands = new File("src\\main\\resources\\media\\images\\actions\\commands.txt");
+		File archivoCommands = new File(Resources.Images.Actions.commands_file);
 		if (!archivoCommands.exists())
 		{
 			try {
@@ -125,7 +129,7 @@ public class ListOfAction {
 		
 		BufferedReader br2 = null;
 		try{
-			br2 = new BufferedReader(new FileReader("src\\main\\resources\\media\\images\\actions\\commands.txt"));
+			br2 = new BufferedReader(new FileReader(Resources.Images.Actions.commands_file));
 			String line;
 			while ((line = br2.readLine()) != null) {
 				String a[] = line.split(",");
@@ -169,7 +173,7 @@ public class ListOfAction {
 	{
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		try {
-			FileWriter writer = new FileWriter("src\\main\\resources\\media\\images\\actions" + File.separatorChar + "actions.json");
+			FileWriter writer = new FileWriter(Resources.Images.Actions.actions_file);
 			writer.write(gson.toJson(clicks));
 			writer.close();
 		} catch (Exception e) {

@@ -9,6 +9,7 @@ import static com.googlecode.javacv.cpp.opencv_core.cvSize;
 import static com.googlecode.javacv.cpp.opencv_highgui.cvLoadImage;
 import static com.googlecode.javacv.cpp.opencv_imgproc.CV_TM_SQDIFF;
 import static com.googlecode.javacv.cpp.opencv_imgproc.cvMatchTemplate;
+
 import java.awt.AWTException;
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
@@ -19,7 +20,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 import javax.imageio.ImageIO;
+
+import org.squadra.atenea.gui.Resources;
+
 import com.googlecode.javacv.cpp.opencv_core.CvPoint;
 import com.googlecode.javacv.cpp.opencv_core.CvScalar;
 import com.googlecode.javacv.cpp.opencv_core.IplImage;
@@ -30,7 +35,6 @@ import com.googlecode.javacv.cpp.opencv_core.IplImage;
  */
 public class Executer {
 
-	private File dir = new File("src\\main\\resources\\media\\images\\actions");
 	private ListOfAction actionsRecorded;
 	private Robot robot;
 
@@ -128,16 +132,18 @@ public class Executer {
 	 * icono
 	 */
 	private int[] searchIcon(String iconFileName) throws HeadlessException, AWTException, IOException, InterruptedException {
-		String screenshootPath = dir.toString() + File.separatorChar + "screenshot.jpg";
+		String screenshotPath = Resources.Images.Actions.screenshot_file;
+		
 		// Saco un screenshot de la pantalla
 		BufferedImage image2 = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-		ImageIO.write(image2, "jpg", new File(screenshootPath));
+		ImageIO.write(image2, "jpg", new File(screenshotPath));
 
 		// Cargo la imagen a buscar y el screenshot a memoria
-		IplImage img = cvLoadImage(screenshootPath);
-		IplImage template = cvLoadImage(iconFileName);
+		IplImage img = cvLoadImage(screenshotPath.replaceFirst("/",""));
+		IplImage template = cvLoadImage(iconFileName.replaceFirst("/",""));
+		
 		IplImage result = cvCreateImage(cvSize(img.width() - template.width() + 1, img.height() - template.height() + 1), IPL_DEPTH_32F, 1);
-
+		
 		// busco
 		int method = CV_TM_SQDIFF;
 		cvMatchTemplate(img, template, result, method);
@@ -164,7 +170,7 @@ public class Executer {
 		cvRectangle(img, point2, point2, CvScalar.GREEN, 2, 8, 0);
 
 		try {
-			ImageIO.write(img.getBufferedImage(), "jpg", new File(dir.toString() + File.separatorChar + "result" + ".jpg"));
+			ImageIO.write(img.getBufferedImage(), "jpg", new File(Resources.Images.Actions.result_file));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
