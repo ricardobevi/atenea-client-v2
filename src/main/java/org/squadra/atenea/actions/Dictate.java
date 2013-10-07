@@ -1,12 +1,24 @@
 package org.squadra.atenea.actions;
 
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.*;
 
 public class Dictate extends PreloadAction {
 
 	@Override
 	public void execute() {
+		//Hago click en la mitad de la pantalla para darle foco a lo que esté atras -.-'
+		try {
+			
+			Robot r = new Robot();
+			r.mouseMove(Toolkit.getDefaultToolkit().getScreenSize().width / 2,
+					Toolkit.getDefaultToolkit().getScreenSize().height / 2);
+			r.mousePress(InputEvent.BUTTON1_MASK);
+			r.mouseRelease(InputEvent.BUTTON1_MASK);
+		} catch (Exception e) {		}
+		
+		//Escribo
 		typeString(param);
 	}
 
