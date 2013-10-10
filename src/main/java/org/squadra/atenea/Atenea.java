@@ -1,10 +1,15 @@
 package org.squadra.atenea;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import org.squadra.atenea.ateneacommunication.AteneaWs;
+import org.squadra.atenea.base.TextFileUtils;
+import org.squadra.atenea.config.AteneaConfiguration;
 import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.gui.MainGUI;
 import org.squadra.atenea.gui.MainGUIPrototype;
@@ -37,14 +42,12 @@ public @Data class Atenea {
 	/** Historial de conversacion y acciones */
 	@Getter @Setter private History history;
 	
+	/** Variables de configuracion del cliente */
+	@Getter @Setter private AteneaConfiguration configuration;
+	
 	/** Objeto microfono que contiene las funciones de captura de audio */
 	@Getter @Setter private Microphone microphone;
 	
-	/** Ruta donde se guarda el archivo WAVE al finalizar la grabacion por voz */
-	@Getter @Setter private String waveFilePath;
-	
-	/** Codigo de idioma para realizar la traduccion de voz a texto */
-	@Getter @Setter private String languageCode;
 	
 	/** Singleton */
 	private static Atenea INSTANCE = null;
@@ -71,17 +74,21 @@ public @Data class Atenea {
 	}
 	
 	/**
-	 * Constructor privado: Carga la configuracion e inicializa las variables necesarias
+	 * Constructor privado: Carga la configuracion, el historial 
+	 * e inicializa las variables necesarias.
 	 * @author Leandro Morrone
 	 */
 	private Atenea() {
 		
-		// ACA HAY QUE CARGAR LA CONFIGURACION DEL SISTEMA
+		// Cargo la configuracion
 		SplashGUI.getInstance().setProgressBarPercent(50, "Cargando configuración de usuario...");
-		this.waveFilePath = Resources.Audio.inputVoicePath;
-		this.languageCode = "es-ES";
-		this.user = "Usuario";
+		this.configuration = new AteneaConfiguration(Resources.Configuration.clientConfig);
+		this.configuration.loadConfigFile();
 		
+		this.user = configuration.getVariable("userName");
+		System.out.println(user);
+		
+		// Cargo el historial
 		SplashGUI.getInstance().setProgressBarPercent(70, "Cargando historial...");
 		this.history = new History(Resources.HistoryElements.jsonPath);
 		this.history.loadHistoryFile();
@@ -89,7 +96,7 @@ public @Data class Atenea {
 		this.state = new AteneaState();
 		this.microphone = new Microphone();
 	}
-	
+
 	/**
 	 * Lanza la interfaz de usuario principal
 	 * @author Leandro Morrone

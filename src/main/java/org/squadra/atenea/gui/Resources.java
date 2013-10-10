@@ -293,6 +293,11 @@ public class Resources {
 		public static final String inputVoicePath = AUDIO_PATH + "inputVoice.wav";
 	}
 	
+	public static class Configuration {
+		
+		public static final String clientConfig = BASE_PATH + "atenea.cfg";
+	}
+	
 	public static enum Colors {
 		GREEN, RED, BLUE, ORANGE, YELLOW, GREY
 	}
