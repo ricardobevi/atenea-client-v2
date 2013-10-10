@@ -1,18 +1,13 @@
 package org.squadra.atenea;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import org.squadra.atenea.ateneacommunication.AteneaWs;
-import org.squadra.atenea.base.TextFileUtils;
 import org.squadra.atenea.config.AteneaConfiguration;
 import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.gui.MainGUI;
-import org.squadra.atenea.gui.MainGUIPrototype;
 import org.squadra.atenea.gui.SplashGUI;
 import org.squadra.atenea.history.History;
 import org.squadra.atenea.stt.Microphone;
@@ -84,9 +79,9 @@ public @Data class Atenea {
 		SplashGUI.getInstance().setProgressBarPercent(50, "Cargando configuración de usuario...");
 		this.configuration = new AteneaConfiguration(Resources.Configuration.clientConfig);
 		this.configuration.loadConfigFile();
+		System.out.println(configuration);
 		
 		this.user = configuration.getVariable("userName");
-		System.out.println(user);
 		
 		// Cargo el historial
 		SplashGUI.getInstance().setProgressBarPercent(70, "Cargando historial...");

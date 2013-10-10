@@ -295,7 +295,7 @@ public class Resources {
 	
 	public static class Configuration {
 		
-		public static final String clientConfig = BASE_PATH + "atenea.cfg";
+		public static final String clientConfig = BASE_PATH + "atenea_config.json";
 	}
 	
 	public static enum Colors {

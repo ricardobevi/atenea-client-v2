@@ -1,26 +1,40 @@
 package org.squadra.atenea.config;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import lombok.ToString;
 import lombok.extern.log4j.Log4j;
 
 import org.squadra.atenea.base.TextFileUtils;
+import org.squadra.atenea.history.History;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Clase para almacenar las variables de configuracion del sistema leidas
- * de un archivo de texto con formato key:value por linea.
+ * de un archivo JSON.
  * @author Leandro Morrone
  *
  */
 @Log4j
+@ToString
 public class AteneaConfiguration {
 
 	/** Mapa para almacenar las variables obtenidas del archivo de configuracion
 	 * con sus respectivos valores */
-	private HashMap<String, String> configVariables = new HashMap<>();
+	private HashMap<String, String> configVariables = new HashMap<String, String>();
 	
-	/** Ruta del archivo de historial */
+	/** Ruta del archivo de configuracion */
 	private String configFilePath;
 	
 	/**
@@ -32,29 +46,28 @@ public class AteneaConfiguration {
 	}
 	
 	/**
-	 * Carga el archivo de configuracion.
+	 * Carga el archivo JSON de configuracion.
 	 * Debe ejecutarse luego del contructor, y antes de cada operacion.
 	 */
 	public void loadConfigFile() {
-		ArrayList<String> lines = TextFileUtils.readTextFile(configFilePath);
 		
-		for (String line : lines) {
+		Gson gson = new GsonBuilder().create();
+		
+		try {
+	        // Cargo el archivo JSON en el objeto History
+	        FileReader fr = new FileReader(configFilePath);
+			BufferedReader br = new BufferedReader(fr);
 			
-			// Salteo las lineas vacias o con el numeral (comentario)
-			if (!line.equals("") && !line.equals(" ") 
-					&& line.charAt(0) != '#' && line.charAt(0) != 0xFEFF) {
+			configVariables = gson.fromJson(br, new TypeToken<HashMap<String, String>>(){}.getType());
 			
-				try {
-					String[] str = line.split(":");
-					configVariables.put(str[0], str[1]);
-				}
-				catch (Exception e) {
-					log.warn("No se pudo cargar la variable de configuracion.");
-					log.warn(" -> " + line);
-				}
-			}
+			br.close();
+	 
+		} catch (IOException e) {
+			log.error("Error al cargar archivo de configuracion.");
+			e.printStackTrace();
 		}
 	}
+	
 	
 	/**
 	 * Devuelve el valor de una variable de configuracion.
@@ -66,14 +79,39 @@ public class AteneaConfiguration {
 	}
 	
 	/**
-	 * Modifica el valor de una variable y actualiza el archivo.
+	 * Modifica el valor de una variable y actualiza el archivo JSON.
 	 * @param varName Nombre de la variable.
 	 * @param value Valor de la variable.
 	 * @return Si la variable fue modificada correctamente.
 	 */
-	public boolean setVariable(String varName, String value) {
+	public boolean updateVariable(String varName, String value) {
 		
-		// TODO: escribir archivo
+		try {
+		
+			// Actualizo la variable en memoria
+			configVariables.put(varName, value);
+			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			
+			// Convierto el objeto History a formato Json
+			String json = gson.toJson(configVariables);
+			System.out.println(json);
+	
+			// Escribo el archivo JSON
+			FileWriter writer = new FileWriter(configFilePath);
+			writer.write(json);
+			writer.close();
+	 
+		} catch (IOException e) {
+			log.error("Error al escribir archivo de configuracion.");
+			e.printStackTrace();
+			return false;
+			
+		} catch (Exception e) {
+			log.error("Error al cambiar el valor de la variable.");
+			e.printStackTrace();
+			return false;
+		}
 		return true;
 	}
 	
