@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j;
 import org.squadra.atenea.Atenea;
 import org.squadra.atenea.AteneaState;
 import org.squadra.atenea.ateneacommunication.Message;
+import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.tts.MessageProcessor;
 
 /**
@@ -55,7 +56,7 @@ public class Microphone {
 	public void stopRecordingAndRecognize() {
 		Atenea.getInstance().setState(AteneaState.PROCESSING);
 		recorder.stopRecording();
-		recorder.generateAudioFile(Atenea.getInstance().getWaveFilePath(), AudioFileFormat.Type.WAVE);
+		recorder.generateAudioFile(Resources.Audio.inputVoicePath, AudioFileFormat.Type.WAVE);
 		new Thread(new RecognizeVoiceThread()).start();
 	}
 	

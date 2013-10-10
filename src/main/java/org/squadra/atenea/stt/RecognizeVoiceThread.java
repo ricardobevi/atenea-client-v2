@@ -10,6 +10,7 @@ import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.exceptions.GoogleTTSException;
 import org.squadra.atenea.gui.MainGUI;
 import org.squadra.atenea.gui.MainGUIPrototype;
+import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.history.HistoryItem;
 import org.squadra.atenea.tts.MessageProcessor;
 
@@ -35,7 +36,7 @@ public class RecognizeVoiceThread implements Runnable {
 		// Envio a Google el audio y el idioma y guardo la respuesta devuelta
 		try {
 			googleResponse = recognizer
-					.getRecognizedDataForWave(atenea.getWaveFilePath(), atenea.getLanguageCode())
+					.getRecognizedDataForWave(Resources.Audio.inputVoicePath, "es-ES")
 					.getResponse();
 			if (googleResponse == null) {
 				throw new Exception();
@@ -72,6 +73,7 @@ public class RecognizeVoiceThread implements Runnable {
 			
 			try {
 				Message inputMessage = new Message(googleResponse);
+				inputMessage.addMetadata("userName", atenea.getUser());
 				
 				// ESTA LINEA ENVIA EL MENSAJE AL SERVIDOR Y RECIBE LA RESPUESTA
 				outputMessage = atenea.getClient().dialog(inputMessage);

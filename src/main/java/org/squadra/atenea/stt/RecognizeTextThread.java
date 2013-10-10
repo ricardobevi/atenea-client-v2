@@ -37,6 +37,7 @@ public class RecognizeTextThread implements Runnable {
 		
 		try {
 			Message inputMessage = new Message(textMessage);
+			inputMessage.addMetadata("userName", atenea.getUser());
 			
 			// ESTA LINEA ENVIA EL MENSAJE AL SERVIDOR Y RECIBE LA RESPUESTA
 			outputMessage = atenea.getClient().dialog(inputMessage);
