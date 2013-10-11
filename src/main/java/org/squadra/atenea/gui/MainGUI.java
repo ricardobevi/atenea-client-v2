@@ -628,6 +628,7 @@ public class MainGUI extends JFrame {
 		}
 		ActionsGUI.createInstance();
 		Atenea.getInstance().setState(AteneaState.LEARNING);
+		System.out.println("APRENDIENDO");
 	}
 	
 	/**

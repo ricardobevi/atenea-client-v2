@@ -39,7 +39,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 	private int X1, Y1, X2, Y2;
 	private String clickType;
 	private BufferedImage screen;
-	private File dir = new File(Resources.Images.Actions.ICONS_PATH);
+	private File dir = new File(Resources.Actions.ICONS_PATH);
 	private String actionName;
 	private boolean controlKeyPressed;
 
@@ -132,7 +132,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 		X2 = e.getX();
 		Y2 = e.getY();
 
-		String iconName = Resources.Images.Actions.ICONS_PATH + "icon" + new java.util.Date().getTime() + ".jpg";
+		String iconName = Resources.Actions.ICONS_PATH + "icon" + new java.util.Date().getTime() + ".jpg";
 
 		try {
 			// guardamos la imagen del icono indicado

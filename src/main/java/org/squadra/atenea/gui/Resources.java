@@ -22,23 +22,6 @@ public class Resources {
 		public static final Image ateneaIcon = 
 				Toolkit.getDefaultToolkit().getImage(IMAGES_PATH + "icon.png");
 		
-		public static class Actions {
-			
-			public static final String PATH = IMAGES_PATH + "actions/";
-			
-			public static final String actions_file = PATH + "actions.json";
-			
-			public static final String commands_file = PATH + "commands.txt";
-			
-			public static final String screenshot_file = PATH + "screenshot.jpg";
-			
-			public static final String result_file = PATH + "result2.jpg";
-			
-			public static final String ICONS_PATH = PATH + "images/";
-			
-		}
-		
-		
 		public static class TrayIcon {
 			
 			private static final String ICON_PATH = IMAGES_PATH + "tray_icon/";
@@ -296,6 +279,21 @@ public class Resources {
 	public static class Configuration {
 		
 		public static final String clientConfig = BASE_PATH + "atenea_config.json";
+	}
+	
+	public static class Actions {
+			
+		public static final String PATH = BASE_PATH + "actions/";
+		
+		public static final String actions_file = PATH + "actions.json";
+		
+		public static final String commands_file = PATH + "commands.txt";
+		
+		public static final String screenshot_file = PATH + "screenshot.jpg";
+		
+		public static final String result_file = PATH + "result2.jpg";
+		
+		public static final String ICONS_PATH = PATH + "images/";
 	}
 	
 	public static enum Colors {
