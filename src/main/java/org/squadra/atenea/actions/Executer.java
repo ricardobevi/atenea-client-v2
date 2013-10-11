@@ -132,7 +132,7 @@ public class Executer {
 	 * icono
 	 */
 	private int[] searchIcon(String iconFileName) throws HeadlessException, AWTException, IOException, InterruptedException {
-		String screenshotPath = Resources.Images.Actions.screenshot_file;
+		String screenshotPath = Resources.Actions.screenshot_file;
 		
 		// Saco un screenshot de la pantalla
 		BufferedImage image2 = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
@@ -170,7 +170,7 @@ public class Executer {
 		cvRectangle(img, point2, point2, CvScalar.GREEN, 2, 8, 0);
 
 		try {
-			ImageIO.write(img.getBufferedImage(), "jpg", new File(Resources.Images.Actions.result_file));
+			ImageIO.write(img.getBufferedImage(), "jpg", new File(Resources.Actions.result_file));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

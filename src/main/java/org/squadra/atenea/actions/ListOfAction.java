@@ -77,13 +77,13 @@ public class ListOfAction {
 	
 	private void loadActionsAndCommandsFromFiles()
 	{
-		File dir = new File(Resources.Images.Actions.PATH);
+		File dir = new File(Resources.Actions.PATH);
 		if (!dir.exists())
 		{
 			dir.mkdir();
 		}
 
-		File archivo = new File(Resources.Images.Actions.actions_file);
+		File archivo = new File(Resources.Actions.actions_file);
 		if (!archivo.exists())
 		{
 			try {
@@ -116,7 +116,7 @@ public class ListOfAction {
 			}
 		}
 
-		File archivoCommands = new File(Resources.Images.Actions.commands_file);
+		File archivoCommands = new File(Resources.Actions.commands_file);
 		if (!archivoCommands.exists())
 		{
 			try {
@@ -129,7 +129,7 @@ public class ListOfAction {
 		
 		BufferedReader br2 = null;
 		try{
-			br2 = new BufferedReader(new FileReader(Resources.Images.Actions.commands_file));
+			br2 = new BufferedReader(new FileReader(Resources.Actions.commands_file));
 			String line;
 			while ((line = br2.readLine()) != null) {
 				String a[] = line.split(",");
@@ -173,7 +173,7 @@ public class ListOfAction {
 	{
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		try {
-			FileWriter writer = new FileWriter(Resources.Images.Actions.actions_file);
+			FileWriter writer = new FileWriter(Resources.Actions.actions_file);
 			writer.write(gson.toJson(clicks));
 			writer.close();
 		} catch (Exception e) {

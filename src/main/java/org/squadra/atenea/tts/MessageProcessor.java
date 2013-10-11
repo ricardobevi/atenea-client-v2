@@ -65,7 +65,8 @@ public class MessageProcessor {
 
 	/** Busca la orden o comando en el archivo JSON y la ejecuta */
 	private static void processOrder(final String orden) {
-		//si es una accion precargada
+		
+		// si es una accion precargada
 		PreloadAction action = ListOfAction.getInstance().getPreLoadAction(orden);
 		if ( action != null)
 		{
@@ -74,39 +75,44 @@ public class MessageProcessor {
 			
 			MainGUI.getInstance().minimizeButtonMouseClicked();
 			action.execute();
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			MainGUI.getInstance().maximizeButtonMouseClicked();
 		}
 		
-		//si es una macro
+		// si es una macro
 		else if (ListOfAction.getInstance().getAction(orden) != null)
 		{
-			MainGUI.getInstance().minimizeButtonMouseClicked();	
-			
-			Runnable executerThread = new Runnable() {
-
-				public void run(){
-					new Executer().execute(new String[]{orden});
-				}
-			};
-			
-			new Thread(executerThread).start();
-			
 			// Muestro por pantalla el mensaje de salida
 			showAndSpeak("Entendido");
 			
+			MainGUI.getInstance().minimizeButtonMouseClicked();	
+			new Executer().execute(new String[]{orden});
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			MainGUI.getInstance().maximizeButtonMouseClicked();
 		}
-		//si es un comando
+		
+		// si es un comando
 		else if (ListOfAction.getInstance().getCommand(orden) != null)
 		{
 			// Muestro por pantalla el mensaje de salida
 			showAndSpeak("Entendido");
-			
-			MainGUI.getInstance().minimizeButtonMouseClicked();
 
 			Command cmd = new Command(Atenea.SO_NAME, 
 					ListOfAction.getInstance().getCommand(orden), 
 					"./salida.txt");
 			cmd.run();
 		}
+		
 		//Accion desconocia. Pido enseñarla
 		else 
 		{
