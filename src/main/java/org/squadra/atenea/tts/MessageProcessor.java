@@ -11,6 +11,7 @@ import org.squadra.atenea.actions.ListOfAction;
 import org.squadra.atenea.actions.PreloadAction;
 import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.gui.MainGUI;
+import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.history.HistoryItem;
 
 /**
@@ -109,7 +110,7 @@ public class MessageProcessor {
 
 			Command cmd = new Command(Atenea.SO_NAME, 
 					ListOfAction.getInstance().getCommand(orden), 
-					"./salida.txt");
+					Resources.Actions.output_command_file);
 			cmd.run();
 		}
 		
