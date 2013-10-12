@@ -30,6 +30,11 @@ public class ListOfAction {
 	private static ListOfAction INSTANCE = null;
 
 
+	public void removeAction(String actionName)
+	{
+		clicks.remove(actionName);
+	}
+	
 	public void addAction(String actionName, List<Click> listOfClicks)
 	{
 		clicks.put(actionName, listOfClicks);
