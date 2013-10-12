@@ -428,26 +428,7 @@ public class ActionsGUI extends JFrame {
 	 * Reproduce la ultima accion grabada.
 	 */
 	protected void playButtonMouseClicked() {
-		try {
-			Thread.sleep(500);
-			this.setExtendedState(JFrame.ICONIFIED);
-		} catch (InterruptedException e2) {
-			e2.printStackTrace();
-		}
-		System.out.println("Reproduciendo...");
-		// Saco los espacios introducidos en el textbox
-		String names = txtActionName.getText().replaceAll("\\ ", "");
-		String[] files = null;
-
-		// Separo las acciones con '+'
-		// Ej: Word + word_pegar
-		if (names.contains("+")) {
-			files = names.split("\\+");
-		} else {
-			files = new String[1];
-			files[0] = names;
-		}
-		executer.execute(files);
+		ListOfAction.getInstance().removeAction(txtActionName.getText());
 	}
 
 	/**
