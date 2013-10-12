@@ -1,6 +1,5 @@
 package org.squadra.atenea.tts;
 
-import java.net.InetAddress;
 import java.util.Date;
 
 import org.squadra.atenea.Atenea;
@@ -34,7 +33,7 @@ public class MessageProcessor {
 
 		// Si es una orden la ejecuto
 		if (message.getType() == Message.ORDER) {
-			processOrder(message.getOrder());
+			processOrder(message);
 		}
 		else {
 			showAndSpeak(outputText);
@@ -66,14 +65,14 @@ public class MessageProcessor {
 	}
 
 	/** Busca la orden o comando en el archivo JSON y la ejecuta */
-	private static void processOrder(final String orden) {
+	private static void processOrder(final Message msg) {
 		
 		// si es una accion precargada
-		PreloadAction action = ListOfAction.getInstance().getPreLoadAction(orden);
+		PreloadAction action = ListOfAction.getInstance().getPreLoadAction(msg.getOrder());
 		if ( action != null)
 		{
 			// Muestro por pantalla el mensaje de salida
-			showAndSpeak("Entendido");
+			showAndSpeak(msg.getText());
 			
 			MainGUI.getInstance().minimizeButtonMouseClicked();
 			action.execute();
@@ -87,13 +86,13 @@ public class MessageProcessor {
 		}
 		
 		// si es una macro
-		else if (ListOfAction.getInstance().getAction(orden) != null)
+		else if (ListOfAction.getInstance().getAction(msg.getOrder()) != null)
 		{
 			// Muestro por pantalla el mensaje de salida
-			showAndSpeak("Entendido");
+			showAndSpeak(msg.getText());
 			
 			MainGUI.getInstance().minimizeButtonMouseClicked();	
-			new Executer().execute(new String[]{orden});
+			new Executer().execute(new String[]{msg.getOrder()});
 			
 			try {
 				Thread.sleep(1000);
@@ -104,13 +103,13 @@ public class MessageProcessor {
 		}
 		
 		// si es un comando
-		else if (ListOfAction.getInstance().getCommand(orden) != null)
+		else if (ListOfAction.getInstance().getCommand(msg.getOrder()) != null)
 		{
 			// Muestro por pantalla el mensaje de salida
-			showAndSpeak("Entendido");
+			showAndSpeak(msg.getText());
 
 			Command cmd = new Command(Atenea.SO_NAME, 
-					ListOfAction.getInstance().getCommand(orden), 
+					ListOfAction.getInstance().getCommand(msg.getOrder()), 
 					Resources.Actions.output_command_file);
 			cmd.run();
 		}
@@ -118,7 +117,7 @@ public class MessageProcessor {
 		//Accion desconocia. Pido enseñarla
 		else 
 		{
-			showSpeakAndLearn("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
+			showSpeakAndLearn(msg.getMetadata("orden_desconocida"));
 			MainGUI.getInstance().actionsButtonMouseClicked();
 			ActionsGUI.getInstance().setActionText(MainGUI.getInstance().getTxtInput());
 		}
