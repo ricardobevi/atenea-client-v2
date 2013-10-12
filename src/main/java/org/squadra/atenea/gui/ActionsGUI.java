@@ -227,7 +227,7 @@ public class ActionsGUI extends JFrame {
 
 		lblRemoveButton = new JLabel();
 		lblRemoveButton.setIcon(Resources.Images.RemoveButton.grey);
-		lblRemoveButton.setToolTipText("Reproducir acción grabada");
+		lblRemoveButton.setToolTipText("Eliminar acción");
 		lblRemoveButton.setBounds(93, 57, 
 				lblRemoveButton.getIcon().getIconWidth(), 
 				lblRemoveButton.getIcon().getIconHeight());
@@ -428,7 +428,11 @@ public class ActionsGUI extends JFrame {
 	 * Reproduce la ultima accion grabada.
 	 */
 	protected void removeActionButtonMouseClicked() {
-		ListOfAction.getInstance().removeAction(txtActionName.getText());
+		boolean ret = ListOfAction.getInstance().removeAction(txtActionName.getText());
+		if (ret)
+			lblState.setText("Acción eliminada");
+		else
+			lblState.setText("No se encontró la acción");
 	}
 
 	/**
