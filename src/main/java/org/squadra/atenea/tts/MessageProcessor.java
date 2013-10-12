@@ -118,7 +118,7 @@ public class MessageProcessor {
 		//Accion desconocia. Pido enseñarla
 		else 
 		{
-			showAndSpeak("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
+			showSpeakAndLearn("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
 			MainGUI.getInstance().actionsButtonMouseClicked();
 			ActionsGUI.getInstance().setActionText(MainGUI.getInstance().getTxtInput());
 		}
@@ -145,5 +145,27 @@ public class MessageProcessor {
 		new Thread(playThread).start();
 			
 	}
+	
+	public static void showSpeakAndLearn (final String text) {
+		// Muestro por pantalla el mensaje de salida
+		MainGUI.getInstance().setTxtOutput(text);
+
+		Runnable playThread = new Runnable() {
+
+			public void run(){
+				Atenea.getInstance().setState(AteneaState.PLAYING);
+				try {
+					PlayTextMessage.play(text);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				Atenea.getInstance().setState(AteneaState.LEARNING);
+			}
+		};
+		
+		new Thread(playThread).start();
+			
+	}
+
 
 }
