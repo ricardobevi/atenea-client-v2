@@ -222,7 +222,7 @@ public class Resources {
 			public static final ImageIcon light_grey = new ImageIcon(BUTTON_PATH + "input_light_grey.png");
 		}
 		
-		public static class PlayButton {
+		public static class RemoveButton {
 			
 			private static final String BUTTON_PATH = IMAGES_PATH + "play_button/";
 			
