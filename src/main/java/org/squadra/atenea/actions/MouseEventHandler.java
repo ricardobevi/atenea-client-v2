@@ -76,16 +76,13 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 
 	/** Muestra el snapshot de la pantalla cuando se presiona Ctrl */
 	public void nativeKeyPressed(NativeKeyEvent e) {
-		System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
 		if (!controlKeyPressed && NativeKeyEvent.getKeyText(e.getKeyCode()) == "Ctrl")
 		{
 			controlKeyPressed = true; 
 			try {
 				screen = new Robot().createScreenCapture(new
 						Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+			} catch (Exception e1) {}
 			frame.add(new Component() {
 				@Override
 				public void paint(Graphics g) {
@@ -115,11 +112,12 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 	 * Metodo que detecta el click en la pantalla
 	 */
 	public void nativeMousePressed(NativeMouseEvent e) {
-
-		X1 = e.getX();
-		Y1 = e.getY();
-
-		System.out.println("primer click "+X1+ "  "+Y1);
+		if (controlKeyPressed)
+		{
+			X1 = e.getX();
+			Y1 = e.getY();
+			System.out.println("primer click "+X1+ "  "+Y1);
+		}
 	}
 
 	public void nativeMouseClicked(NativeMouseEvent e) {
@@ -140,14 +138,14 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 					Math.abs(X1-X2), Math.abs(Y1-Y2)) ;
 			FileOutputStream out = new FileOutputStream(iconName);
 			ImageIO.write(bufferedImage, "jpg", out);
-			System.out.println("Grabando imagen");
+			System.out.println("Grabando imagen en " + iconName);
 
 			clicks.add(new Click(clickType.toString(), iconName));
 
 			X1 = X2 = Y1 = Y2 = -1;
 
 		} catch (Exception ex) {
-//			ex.printStackTrace();
+			//			ex.printStackTrace();
 		}
 
 	}
@@ -156,14 +154,16 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 	}
 
 	public void nativeMouseDragged(NativeMouseEvent e) {
+		if (controlKeyPressed)
+		{
+			X2 = e.getX();
+			Y2 = e.getY();
 
-		X2 = e.getX();
-		Y2 = e.getY();
-
-		frame.repaint();
+			frame.repaint();
+		}
 	}
 
-	
+
 	/** Se cierra la ventana del snapshot al soltar Ctrl */
 	public void nativeKeyReleased(NativeKeyEvent e) {
 		if (NativeKeyEvent.getKeyText(e.getKeyCode()) == "Ctrl")
