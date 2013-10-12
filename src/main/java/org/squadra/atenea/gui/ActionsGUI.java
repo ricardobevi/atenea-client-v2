@@ -37,19 +37,19 @@ import org.squadra.atenea.actions.MouseEventHandler;
 @Log4j
 @SuppressWarnings("serial")
 public class ActionsGUI extends JFrame {
-	
+
 	/** Singleton */
 	private static ActionsGUI INSTANCE = null;
-	
+
 	/** Manejador de eventos del mouse */
 	private MouseEventHandler mouseHandler;
-	
+
 	/** Ejecutador de acciones */
 	private Executer executer = new Executer();
-	
+
 	/** Variable que indica si se esta grabando */
 	private boolean isRecording;
-	
+
 	/**
 	 * Crea una instancia de la interfaz, y si ya existe la devuelve
 	 * @return instancia singleton de la interfaz principal
@@ -61,7 +61,7 @@ public class ActionsGUI extends JFrame {
 		}
 		return INSTANCE;
 	}
-	
+
 	/**
 	 * Devuelve la instancia de la interfaz de usuario
 	 * @return instancia singleton de la interfaz principal
@@ -70,7 +70,7 @@ public class ActionsGUI extends JFrame {
 	public static ActionsGUI getInstance() {
 		return INSTANCE;
 	}
-	
+
 	/**
 	 * Constructor privado: inicia la interfaz principal
 	 * @author Leandro Morrone
@@ -82,7 +82,7 @@ public class ActionsGUI extends JFrame {
 	// Puntos utilizados para el drag de la interfaz
 	private Point startDrag;
 	private Point startLoc;
-		
+
 	// Elementos swing de la interfaz de usuario
 	private JLabel lblBackground;
 	private JLabel lblRecordButton;
@@ -92,15 +92,15 @@ public class ActionsGUI extends JFrame {
 	private JLabel lblState;
 	private JTextField txtActionName;
 	private JComboBox<String> comboActionType;
-	
+
 	/**
 	 * Inicializo los componentes de la interfaz de usuario y la muestro en pantalla
 	 * @author Leandro Morrone
 	 */
 	private void initComponents() {
-		
+
 		//=================== PROPIEDADES DE LA VENTANA =====================
-		
+
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (Exception e) {
@@ -115,30 +115,30 @@ public class ActionsGUI extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setAlwaysOnTop(true); //TODO: leer de archivo config
-		
+
 		//========================== BACKGROUND ============================= 
-		
+
 		lblBackground = new JLabel();
 		lblBackground.setIcon(Resources.Images.Backgrounds.actions);
 		lblBackground.setBounds(0, 0, 
 				lblBackground.getIcon().getIconWidth(), 
 				lblBackground.getIcon().getIconHeight());
-		
+
 		lblBackground.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mousePressed(java.awt.event.MouseEvent evt) {
-            	backgroundMousePressed(evt);
-            }
+				backgroundMousePressed(evt);
+			}
 		});
 		lblBackground.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
 			@Override
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-            	backgroundMouseDragged(evt);
-            }
-        });
-		
+			public void mouseDragged(java.awt.event.MouseEvent evt) {
+				backgroundMouseDragged(evt);
+			}
+		});
+
 		//====================== BOTON PARA CERRAR ==========================
-		
+
 		lblCloseButton = new JLabel();
 		lblCloseButton.setIcon(Resources.Images.CloseButton.grey);
 		lblCloseButton.setToolTipText("Cerrar");
@@ -148,23 +148,23 @@ public class ActionsGUI extends JFrame {
 
 		lblCloseButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				if (SwingUtilities.isLeftMouseButton(evt)) {
-	            	closeButtonMouseClicked();
+					closeButtonMouseClicked();
 				}
-            }
+			}
 			@Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				lblCloseButton.setIcon(Resources.Images.CloseButton.blue);
-            }
+			}
 			@Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+			public void mouseExited(java.awt.event.MouseEvent evt) {
 				lblCloseButton.setIcon(Resources.Images.CloseButton.grey);
-            }
-        });
-		
+			}
+		});
+
 		//======================== BOTON DE AYUDA ===========================
-		
+
 		lblHelpButton = new JLabel();
 		lblHelpButton.setIcon(Resources.Images.HelpButton.grey);
 		lblHelpButton.setToolTipText("Ayuda");
@@ -174,23 +174,23 @@ public class ActionsGUI extends JFrame {
 
 		lblHelpButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				if (SwingUtilities.isLeftMouseButton(evt)) {
-	            	helpButtonMouseClicked();
+					helpButtonMouseClicked();
 				}
-            }
+			}
 			@Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				lblHelpButton.setIcon(Resources.Images.HelpButton.blue);
-            }
+			}
 			@Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+			public void mouseExited(java.awt.event.MouseEvent evt) {
 				lblHelpButton.setIcon(Resources.Images.HelpButton.grey);
-            }
-        });
-		
+			}
+		});
+
 		//============== BOTON PARA GRABAR ACCION / DETENER =================
-		
+
 		lblRecordButton = new JLabel();
 		lblRecordButton.setIcon(Resources.Images.RecordButton.grey);
 		lblRecordButton.setToolTipText("Iniciar grabación");
@@ -200,31 +200,31 @@ public class ActionsGUI extends JFrame {
 
 		lblRecordButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				if (SwingUtilities.isLeftMouseButton(evt)) {
-	            	recordButtonMouseClicked();
+					recordButtonMouseClicked();
 				}
-            }
+			}
 			@Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				if (isRecording) {
 					lblRecordButton.setIcon(Resources.Images.StopButton.blue);
 				} else {
 					lblRecordButton.setIcon(Resources.Images.RecordButton.red);
 				}
-            }
+			}
 			@Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+			public void mouseExited(java.awt.event.MouseEvent evt) {
 				if (isRecording) {
 					lblRecordButton.setIcon(Resources.Images.StopButton.grey);
 				} else {
 					lblRecordButton.setIcon(Resources.Images.RecordButton.grey);
 				}
-            }
-        });
-		
+			}
+		});
+
 		//================= BOTON PARA REPRODUCIR ACCION ====================
-		
+
 		lblPlayButton = new JLabel();
 		lblPlayButton.setIcon(Resources.Images.PlayButton.grey);
 		lblPlayButton.setToolTipText("Reproducir acción grabada");
@@ -234,23 +234,23 @@ public class ActionsGUI extends JFrame {
 
 		lblPlayButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				if (SwingUtilities.isLeftMouseButton(evt)) {
-	            	playButtonMouseClicked();
+					playButtonMouseClicked();
 				}
-            }
+			}
 			@Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				lblPlayButton.setIcon(Resources.Images.PlayButton.blue);
-            }
+			}
 			@Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+			public void mouseExited(java.awt.event.MouseEvent evt) {
 				lblPlayButton.setIcon(Resources.Images.PlayButton.grey);
-            }
-        });
-		
+			}
+		});
+
 		//===================== TEXTAREA DE ENTRADA =========================
-		
+
 		final String defaultActionName = "Nombre de la acción";
 		txtActionName = new JTextField(defaultActionName);
 		txtActionName.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -258,18 +258,18 @@ public class ActionsGUI extends JFrame {
 		txtActionName.setBorder(BorderFactory.createCompoundBorder(
 				new LineBorder(new Color(175, 175, 175), 4), 
 				BorderFactory.createEmptyBorder(3, 5, 3, 5)));
-		
+
 		txtActionName.setBounds(20, 18, 220, 31);
 		txtActionName.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				txtAreaLight(txtActionName, true);
-            }
+			}
 			@Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+			public void mouseExited(java.awt.event.MouseEvent evt) {
 				txtAreaLight(txtActionName, false);
-            }
-        });
+			}
+		});
 		txtActionName.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -286,9 +286,9 @@ public class ActionsGUI extends JFrame {
 				}
 			}
 		});
-		
+
 		//================ COMBO CON LOS TIPOS DE ACCIONES ==================
-		
+
 		comboActionType = new JComboBox<String>();
 		comboActionType.addItem("Click");
 		comboActionType.addItem("Doble click");
@@ -296,34 +296,34 @@ public class ActionsGUI extends JFrame {
 		comboActionType.setBackground(Color.WHITE);
 		comboActionType.setBorder(new LineBorder(new Color(175, 175, 175), 3));
 		comboActionType.setBounds(248, 18, 112, 31);
-		
+
 		//====================== TEXTO CON EL ESTADO ========================
-		
+
 		lblState = new JLabel("");
 		lblState.setBounds(130, 58, 150, 25);
-		
-		
+
+
 		//===================================================================
 		// Agrego todos los elementos a la interfaz en diferentes capas
-		
+
 		JLayeredPane layeredPane = getLayeredPane();
 		layeredPane.add(lblBackground, new Integer(1));   //el Integer es el z-index
-		
+
 		layeredPane.add(lblCloseButton, new Integer(2));
 		layeredPane.add(lblHelpButton, new Integer(2));
 		layeredPane.add(lblRecordButton, new Integer(2));
 		layeredPane.add(lblPlayButton, new Integer(2));
 		layeredPane.add(lblState, new Integer(2));
-		
+
 		layeredPane.add(txtActionName, new Integer(3));
 		layeredPane.add(comboActionType, new Integer(3));
-		
+
 		// Hago visible la GUI una vez que termino de cargar todos los componentes
 		setVisible(true);
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Se ejecuta presionando sobre el boton de cerrar.
 	 * Cierra el programa
@@ -338,7 +338,7 @@ public class ActionsGUI extends JFrame {
 		MainGUI.getInstance().maximizeButtonMouseClicked();
 		dispose();
 	}
-	
+
 	/**
 	 * Se ejecuta presionando sobre el boton de ayuda.
 	 * Abre la seccion de ayuda del sitio web.
@@ -346,14 +346,14 @@ public class ActionsGUI extends JFrame {
 	protected void helpButtonMouseClicked() {
 		// TODO Auto-generated method stub
 	}
-	
+
 	/**
 	 * Se ejecuta presionando sobre el boton de grabar/detener.
 	 * Si esta en estado de espera, inicio la grabacion de la macro.
 	 * Si esta en estado grabando, detiene la grabacion de la macro.
 	 */
 	protected void recordButtonMouseClicked() {
-		
+
 		// Si esta grabando una accion -> detiene la grabacion
 		if (isRecording)
 		{
@@ -365,13 +365,21 @@ public class ActionsGUI extends JFrame {
 		// Si no esta grabando -> comienza la grabacion
 		else
 		{
-			initActionRecord();
-			lblRecordButton.setIcon(Resources.Images.StopButton.blue);
-			lblRecordButton.setToolTipText("Detener grabación");
-			lblState.setText("<html><body>Grabando...<br>Mantenga CTRL y seleccione</body></html>");
+			// Si la accion no tiene nombre
+			if (txtActionName.getText().isEmpty())
+			{
+				lblState.setText("Falta el nombre de la acción");
+			}
+			else
+			{
+				initActionRecord();
+				lblRecordButton.setIcon(Resources.Images.StopButton.blue);
+				lblRecordButton.setToolTipText("Detener grabación");
+				lblState.setText("<html><body>Grabando...<br>Mantenga CTRL y seleccione</body></html>");
+			}
 		}
 	}
-	
+
 	/**
 	 * Inicia la grabacion de macros
 	 */
@@ -379,17 +387,17 @@ public class ActionsGUI extends JFrame {
 		try {
 			Thread.sleep(500);
 			//setExtendedState(JFrame.ICONIFIED);
-			
+
 			GlobalScreen.registerNativeHook();
 			mouseHandler = new MouseEventHandler(txtActionName.getText(), (String) comboActionType.getSelectedItem()) ;
-					
+
 		} catch (NativeHookException ex) {
 			log.error("There was a problem registering the native hook.");
 			log.error(ex.getMessage());
 			System.exit(1);
 		} catch (Exception e1) {
 		}
-		
+
 		// Inicio el proceso de captura de clicks
 		GlobalScreen.getInstance().addNativeMouseListener(mouseHandler);
 		GlobalScreen.getInstance().addNativeMouseMotionListener(mouseHandler);
@@ -398,7 +406,7 @@ public class ActionsGUI extends JFrame {
 		isRecording = true;
 		log.debug("Inicio de captura");
 	}
-	
+
 	/**
 	 * Detiene la grabacion de macros
 	 */
@@ -414,7 +422,7 @@ public class ActionsGUI extends JFrame {
 		isRecording = false;
 		log.debug("Fin de captura");
 	}
-	
+
 	/**
 	 * Se ejecuta presionando sobre el boton de reproducir.
 	 * Reproduce la ultima accion grabada.
@@ -441,7 +449,7 @@ public class ActionsGUI extends JFrame {
 		}
 		executer.execute(files);
 	}
-	
+
 	/**
 	 * Se ejecuta cuando se hace click sobre el fondo de la interfaz.
 	 * Guarda la posicion donde se hizo click.
@@ -449,9 +457,9 @@ public class ActionsGUI extends JFrame {
 	 */
 	protected void backgroundMousePressed(MouseEvent evt) {
 		this.startDrag = this.getScreenLocation(evt);
-        this.startLoc = this.getLocation();
+		this.startLoc = this.getLocation();
 	}
-	
+
 	/**
 	 * Se ejecuta cuando se hace un arrastre de la interfaz.
 	 * Mueve la interfaz a medida que se arrastra el mouse.
@@ -459,22 +467,22 @@ public class ActionsGUI extends JFrame {
 	 */
 	protected void backgroundMouseDragged(MouseEvent evt) {
 		Point current = this.getScreenLocation(evt);
-	    Point offset = new Point((int) current.getX() - (int) startDrag.getX(),
-	        (int) current.getY() - (int) startDrag.getY());
+		Point offset = new Point((int) current.getX() - (int) startDrag.getX(),
+				(int) current.getY() - (int) startDrag.getY());
 
-	    Point new_location = new Point(
-	        (int) (this.startLoc.getX() + offset.getX()), (int) (this.startLoc
-	            .getY() + offset.getY()));
-	        this.setLocation(new_location);
+		Point new_location = new Point(
+				(int) (this.startLoc.getX() + offset.getX()), (int) (this.startLoc
+						.getY() + offset.getY()));
+		this.setLocation(new_location);
 	}
-	
+
 	private Point getScreenLocation(MouseEvent e) {
-        Point cursor = e.getPoint();
-        Point target_location = this.getLocationOnScreen();
-        return new Point((int) (target_location.getX() + cursor.getX()),
-            (int) (target_location.getY() + cursor.getY()));
-    }
-	
+		Point cursor = e.getPoint();
+		Point target_location = this.getLocationOnScreen();
+		return new Point((int) (target_location.getX() + cursor.getX()),
+				(int) (target_location.getY() + cursor.getY()));
+	}
+
 	private void txtAreaLight(JTextField area, boolean light) {
 		if (light) {
 			area.setBorder(BorderFactory.createCompoundBorder(
@@ -486,6 +494,16 @@ public class ActionsGUI extends JFrame {
 					new LineBorder(new Color(175, 175, 175), 4), 
 					BorderFactory.createEmptyBorder(3, 5, 3, 5)));
 		}
+	}
+
+	/** 
+	 * @brief setea el texto del TextField de ActionGUI
+	 * @param name
+	 */
+	public void setActionText(String name)
+	{
+		txtActionName.setForeground(Color.BLACK);
+		txtActionName.setText(name);
 	}
 
 }
