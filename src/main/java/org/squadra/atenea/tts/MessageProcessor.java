@@ -10,6 +10,7 @@ import org.squadra.atenea.actions.Executer;
 import org.squadra.atenea.actions.ListOfAction;
 import org.squadra.atenea.actions.PreloadAction;
 import org.squadra.atenea.ateneacommunication.Message;
+import org.squadra.atenea.gui.ActionsGUI;
 import org.squadra.atenea.gui.MainGUI;
 import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.history.HistoryItem;
@@ -119,6 +120,7 @@ public class MessageProcessor {
 		{
 			showAndSpeak("No sé como hacer eso. Por favor, ¿Podrías enseñarmelo?");
 			MainGUI.getInstance().actionsButtonMouseClicked();
+			ActionsGUI.getInstance().setActionText(MainGUI.getInstance().getTxtInput());
 		}
 	}
 	
