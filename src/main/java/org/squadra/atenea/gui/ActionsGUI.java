@@ -86,7 +86,7 @@ public class ActionsGUI extends JFrame {
 	// Elementos swing de la interfaz de usuario
 	private JLabel lblBackground;
 	private JLabel lblRecordButton;
-	private JLabel lblPlayButton;
+	private JLabel lblRemoveButton;
 	private JLabel lblHelpButton;
 	private JLabel lblCloseButton;
 	private JLabel lblState;
@@ -225,27 +225,27 @@ public class ActionsGUI extends JFrame {
 
 		//================= BOTON PARA REPRODUCIR ACCION ====================
 
-		lblPlayButton = new JLabel();
-		lblPlayButton.setIcon(Resources.Images.PlayButton.grey);
-		lblPlayButton.setToolTipText("Reproducir acción grabada");
-		lblPlayButton.setBounds(93, 57, 
-				lblPlayButton.getIcon().getIconWidth(), 
-				lblPlayButton.getIcon().getIconHeight());
+		lblRemoveButton = new JLabel();
+		lblRemoveButton.setIcon(Resources.Images.RemoveButton.grey);
+		lblRemoveButton.setToolTipText("Reproducir acción grabada");
+		lblRemoveButton.setBounds(93, 57, 
+				lblRemoveButton.getIcon().getIconWidth(), 
+				lblRemoveButton.getIcon().getIconHeight());
 
-		lblPlayButton.addMouseListener(new java.awt.event.MouseAdapter() {
+		lblRemoveButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				if (SwingUtilities.isLeftMouseButton(evt)) {
-					playButtonMouseClicked();
+					removeActionButtonMouseClicked();
 				}
 			}
 			@Override
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				lblPlayButton.setIcon(Resources.Images.PlayButton.blue);
+				lblRemoveButton.setIcon(Resources.Images.RemoveButton.blue);
 			}
 			@Override
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				lblPlayButton.setIcon(Resources.Images.PlayButton.grey);
+				lblRemoveButton.setIcon(Resources.Images.RemoveButton.grey);
 			}
 		});
 
@@ -312,7 +312,7 @@ public class ActionsGUI extends JFrame {
 		layeredPane.add(lblCloseButton, new Integer(2));
 		layeredPane.add(lblHelpButton, new Integer(2));
 		layeredPane.add(lblRecordButton, new Integer(2));
-		layeredPane.add(lblPlayButton, new Integer(2));
+		layeredPane.add(lblRemoveButton, new Integer(2));
 		layeredPane.add(lblState, new Integer(2));
 
 		layeredPane.add(txtActionName, new Integer(3));
@@ -427,7 +427,7 @@ public class ActionsGUI extends JFrame {
 	 * Se ejecuta presionando sobre el boton de reproducir.
 	 * Reproduce la ultima accion grabada.
 	 */
-	protected void playButtonMouseClicked() {
+	protected void removeActionButtonMouseClicked() {
 		ListOfAction.getInstance().removeAction(txtActionName.getText());
 	}
 
