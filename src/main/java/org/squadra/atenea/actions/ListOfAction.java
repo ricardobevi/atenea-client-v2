@@ -30,9 +30,9 @@ public class ListOfAction {
 	private static ListOfAction INSTANCE = null;
 
 
-	public void removeAction(String actionName)
+	public boolean removeAction(String actionName)
 	{
-		clicks.remove(actionName);
+		return clicks.remove(actionName) != null;
 	}
 	
 	public void addAction(String actionName, List<Click> listOfClicks)
