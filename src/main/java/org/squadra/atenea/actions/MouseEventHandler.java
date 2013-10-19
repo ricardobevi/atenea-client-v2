@@ -25,9 +25,13 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
+import org.squadra.atenea.Atenea;
+import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.base.ResourcesActions;
 import org.squadra.atenea.base.actions.Click;
 import org.squadra.atenea.base.actions.ListOfAction;
+import org.squadra.atenea.gui.ActionsGUI;
+import org.squadra.atenea.gui.MainGUI;
 import org.squadra.atenea.gui.Resources;
 
 /*
@@ -74,7 +78,16 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 	 * Metodo que agrega las acciones nuevas
 	 */
 	public void finish() {
-		actionsRecorded.addAction(actionName,clicks);
+//		actionsRecorded.addAction(actionName,clicks);
+		Message msg = new Message(ActionsGUI.getInstance().getName());
+		
+		msg.setType(Message.STORE_ACTION);
+		for (Click click : clicks) {
+			msg.setIcon(click.serialize());
+		}
+		
+		// ESTA LINEA ENVIA EL MENSAJE AL SERVIDOR Y RECIBE LA RESPUESTA
+		Message outputMessage = Atenea.getInstance().getClient().dialog(msg);
 	}
 
 	/** Muestra el snapshot de la pantalla cuando se presiona Ctrl */
