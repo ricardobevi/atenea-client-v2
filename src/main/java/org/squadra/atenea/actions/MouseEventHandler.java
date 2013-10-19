@@ -25,6 +25,9 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
+import org.squadra.atenea.base.ResourcesActions;
+import org.squadra.atenea.base.actions.Click;
+import org.squadra.atenea.base.actions.ListOfAction;
 import org.squadra.atenea.gui.Resources;
 
 /*
@@ -39,7 +42,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 	private int X1, Y1, X2, Y2;
 	private String clickType;
 	private BufferedImage screen;
-	private File dir = new File(Resources.Actions.ICONS_PATH);
+	private File dir = new File(ResourcesActions.Actions.ICONS_PATH);
 	private String actionName;
 	private boolean controlKeyPressed;
 
@@ -130,7 +133,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 		X2 = e.getX();
 		Y2 = e.getY();
 
-		String iconName = Resources.Actions.ICONS_PATH + "icon" + new java.util.Date().getTime() + ".jpg";
+		String iconName = ResourcesActions.Actions.ICONS_PATH + "icon" + new java.util.Date().getTime() + ".jpg";
 
 		try {
 			// guardamos la imagen del icono indicado

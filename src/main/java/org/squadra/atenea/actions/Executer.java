@@ -19,10 +19,14 @@ import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.squadra.atenea.base.ResourcesActions;
+import org.squadra.atenea.base.actions.Click;
+import org.squadra.atenea.base.actions.ListOfAction;
 import org.squadra.atenea.gui.Resources;
 
 import com.googlecode.javacv.cpp.opencv_core.CvPoint;
@@ -48,6 +52,16 @@ public class Executer {
 	}
 
 
+	public void executeListOfClicks(ArrayList<Click> actions) {
+			for (Click click : actions)
+			{
+				System.out.println("Searching: " + click.getPathOfIcon());
+				executeIcon(click.getPathOfIcon(), click.getTypeOfClick());
+			}
+		
+	}
+
+	
 	/*
 	 * Ejecuta las acciones indicadas
 	 */
@@ -132,7 +146,7 @@ public class Executer {
 	 * icono
 	 */
 	private int[] searchIcon(String iconFileName) throws HeadlessException, AWTException, IOException, InterruptedException {
-		String screenshotPath = Resources.Actions.screenshot_file;
+		String screenshotPath = ResourcesActions.Actions.screenshot_file;
 		
 		// Saco un screenshot de la pantalla
 		BufferedImage image2 = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
@@ -170,7 +184,7 @@ public class Executer {
 		cvRectangle(img, point2, point2, CvScalar.GREEN, 2, 8, 0);
 
 		try {
-			ImageIO.write(img.getBufferedImage(), "jpg", new File(Resources.Actions.result_file));
+			ImageIO.write(img.getBufferedImage(), "jpg", new File(ResourcesActions.Actions.result_file));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
