@@ -16,8 +16,8 @@ import javax.swing.JTextField;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.squadra.atenea.actions.Executer;
-import org.squadra.atenea.actions.ListOfAction;
 import org.squadra.atenea.actions.MouseEventHandler;
+import org.squadra.atenea.base.actions.ListOfAction;
 
 
 /*
