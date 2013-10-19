@@ -332,7 +332,7 @@ public class ActionsGUI extends JFrame {
 		if (isRecording) {
 			stopActionRecord();
 		}
-		ListOfAction.getInstance().writeToFile();
+//		ListOfAction.getInstance().writeToFile();
 		INSTANCE = null;
 		Atenea.getInstance().setState(AteneaState.WAITING);
 		MainGUI.getInstance().maximizeButtonMouseClicked();
