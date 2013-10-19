@@ -35,10 +35,20 @@ public class MessageProcessor {
 		String outputText = message.getText();
 
 		// Si es una orden la ejecuto
-		if (message.getType() == Message.ORDER) {
+		if (message.getType() == Message.ORDER) 
+		{
+			System.out.println("procesamos la orden");
 			processOrder(message);
 		}
-		else {
+		else if(message.getType() == Message.LEARN_ACTION)
+		{
+			System.out.println("hay q aprender la orden");
+			showSpeakAndLearn(message.getMetadata("orden_desconocida"));
+			MainGUI.getInstance().actionsButtonMouseClicked();
+			ActionsGUI.getInstance().setActionText(MainGUI.getInstance().getTxtInput());
+		}
+		else 
+		{
 			showAndSpeak(outputText);
 		}
 
@@ -124,13 +134,6 @@ public class MessageProcessor {
 			cmd.run();
 		}
 		
-		//Accion desconocia. Pido enseñarla
-		else 
-		{
-			showSpeakAndLearn(msg.getMetadata("orden_desconocida"));
-			MainGUI.getInstance().actionsButtonMouseClicked();
-			ActionsGUI.getInstance().setActionText(MainGUI.getInstance().getTxtInput());
-		}
 	}
 	
 	
