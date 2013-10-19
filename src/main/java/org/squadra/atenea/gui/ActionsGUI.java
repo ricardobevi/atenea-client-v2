@@ -24,8 +24,8 @@ import org.jnativehook.NativeHookException;
 import org.squadra.atenea.Atenea;
 import org.squadra.atenea.AteneaState;
 import org.squadra.atenea.actions.Executer;
-import org.squadra.atenea.actions.ListOfAction;
 import org.squadra.atenea.actions.MouseEventHandler;
+import org.squadra.atenea.base.actions.ListOfAction;
 
 /**
  * Interfaz de usuario utilizada para grabar macros.
