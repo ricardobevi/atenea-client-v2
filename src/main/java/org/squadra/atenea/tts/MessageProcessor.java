@@ -1,14 +1,17 @@
 package org.squadra.atenea.tts;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.squadra.atenea.Atenea;
 import org.squadra.atenea.AteneaState;
 import org.squadra.atenea.actions.Command;
 import org.squadra.atenea.actions.Executer;
-import org.squadra.atenea.actions.ListOfAction;
-import org.squadra.atenea.actions.PreloadAction;
 import org.squadra.atenea.ateneacommunication.Message;
+import org.squadra.atenea.base.ResourcesActions;
+import org.squadra.atenea.base.actions.Click;
+import org.squadra.atenea.base.actions.ListOfAction;
+import org.squadra.atenea.base.actions.PreloadAction;
 import org.squadra.atenea.gui.ActionsGUI;
 import org.squadra.atenea.gui.MainGUI;
 import org.squadra.atenea.gui.Resources;
@@ -91,8 +94,15 @@ public class MessageProcessor {
 			// Muestro por pantalla el mensaje de salida
 			showAndSpeak(msg.getText());
 			
-			MainGUI.getInstance().minimizeButtonMouseClicked();	
-			new Executer().execute(new String[]{msg.getOrder()});
+			MainGUI.getInstance().minimizeButtonMouseClicked();
+			//Deserealizo lo q llego en el msg
+			ArrayList<String> clicks = msg.getIcons();
+			ArrayList<Click> orden = new ArrayList<Click>();
+			for (String click : clicks) {
+				orden.add(Click.deserialize(click));
+			}
+			
+			new Executer().executeListOfClicks(orden);
 			
 			try {
 				Thread.sleep(1000);
@@ -110,7 +120,7 @@ public class MessageProcessor {
 
 			Command cmd = new Command(Atenea.SO_NAME, 
 					ListOfAction.getInstance().getCommand(msg.getOrder()), 
-					Resources.Actions.output_command_file);
+					ResourcesActions.Actions.output_command_file);
 			cmd.run();
 		}
 		
