@@ -332,7 +332,7 @@ public class ActionsGUI extends JFrame {
 		if (isRecording) {
 			stopActionRecord();
 		}
-//		ListOfAction.getInstance().writeToFile();
+
 		INSTANCE = null;
 		Atenea.getInstance().setState(AteneaState.WAITING);
 		MainGUI.getInstance().maximizeButtonMouseClicked();
@@ -357,7 +357,11 @@ public class ActionsGUI extends JFrame {
 		// Si esta grabando una accion -> detiene la grabacion
 		if (isRecording)
 		{
+			lblState.setText("Guardando acción");
 			stopActionRecord();
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {			}
 			lblRecordButton.setIcon(Resources.Images.RecordButton.red);
 			lblRecordButton.setToolTipText("Iniciar grabación");
 			lblState.setText("Fin de la grabación");
@@ -389,7 +393,7 @@ public class ActionsGUI extends JFrame {
 			//setExtendedState(JFrame.ICONIFIED);
 
 			GlobalScreen.registerNativeHook();
-			mouseHandler = new MouseEventHandler(txtActionName.getText(), (String) comboActionType.getSelectedItem()) ;
+			mouseHandler = new MouseEventHandler(txtActionName.getText()) ;
 
 		} catch (NativeHookException ex) {
 			log.error("There was a problem registering the native hook.");
@@ -411,6 +415,7 @@ public class ActionsGUI extends JFrame {
 	 * Detiene la grabacion de macros
 	 */
 	private void stopActionRecord() {
+		ListOfAction.getInstance().writeToFile();
 		mouseHandler.finish();
 
 		// Termino el proceso de captura de clicks
@@ -428,11 +433,11 @@ public class ActionsGUI extends JFrame {
 	 * Reproduce la ultima accion grabada.
 	 */
 	protected void removeActionButtonMouseClicked() {
-		boolean ret = ListOfAction.getInstance().removeAction(txtActionName.getText());
-		if (ret)
-			lblState.setText("Acción eliminada");
-		else
-			lblState.setText("No se encontró la acción");
+//		boolean ret = ListOfAction.getInstance().removeAction(txtActionName.getText());
+//		if (ret)
+//			lblState.setText("Acción eliminada");
+//		else
+//			lblState.setText("No se encontró la acción");
 	}
 
 	/**
@@ -490,5 +495,13 @@ public class ActionsGUI extends JFrame {
 		txtActionName.setForeground(Color.BLACK);
 		txtActionName.setText(name);
 	}
+	
+	public String getActionText(){
+		return txtActionName.getText();
+	}
 
+	public String getTypeOfClick()
+	{
+		return (String) comboActionType.getSelectedItem();
+	}
 }
