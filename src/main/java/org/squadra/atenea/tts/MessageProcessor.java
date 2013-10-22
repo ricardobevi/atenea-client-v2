@@ -33,22 +33,27 @@ public class MessageProcessor {
 	public static void processMessage(Message message) {
 
 		String outputText = message.getText();
-
+		System.out.println("procesamos");
 		// Si es una orden la ejecuto
 		if (message.getType() == Message.ORDER) 
 		{
 			System.out.println("procesamos la orden");
 			processOrder(message);
 		}
+		else if (message.getType() == Message.PRELOAD_ACTION)
+		{
+			processPreloadOrder(message);
+		}
 		else if(message.getType() == Message.LEARN_ACTION)
 		{
 			System.out.println("hay q aprender la orden");
-			showSpeakAndLearn(message.getMetadata("orden_desconocida"));
+			showSpeakAndLearn(outputText);//"No se que es eso ¿Podrias enseñarmelo?");//message.getMetadata("orden_desconocida"));
 			MainGUI.getInstance().actionsButtonMouseClicked();
 			ActionsGUI.getInstance().setActionText(MainGUI.getInstance().getTxtInput());
 		}
 		else 
 		{
+			System.out.println(message.getType());
 			showAndSpeak(outputText);
 		}
 
@@ -77,54 +82,27 @@ public class MessageProcessor {
 
 	}
 
-	/** Busca la orden o comando en el archivo JSON y la ejecuta */
-	private static void processOrder(final Message msg) {
-		
-		// si es una accion precargada
+	private static void processPreloadOrder(Message msg)
+	{
 		PreloadAction action = ListOfAction.getInstance().getPreLoadAction(msg.getOrder());
-		if ( action != null)
+		if (action != null)
 		{
+			System.out.println("Es una accion precargada");
 			// Muestro por pantalla el mensaje de salida
 			showAndSpeak(msg.getText());
-			
+
 			MainGUI.getInstance().minimizeButtonMouseClicked();
 			action.execute();
-			
+
 			try {
 				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			} catch (InterruptedException e) {		}
 			MainGUI.getInstance().maximizeButtonMouseClicked();
 		}
-		
-		// si es una macro
-		else if (ListOfAction.getInstance().getAction(msg.getOrder()) != null)
+		else
+			// Es un comando
 		{
-			// Muestro por pantalla el mensaje de salida
-			showAndSpeak(msg.getText());
-			
-			MainGUI.getInstance().minimizeButtonMouseClicked();
-			//Deserealizo lo q llego en el msg
-			ArrayList<String> clicks = msg.getIcons();
-			ArrayList<Click> orden = new ArrayList<Click>();
-			for (String click : clicks) {
-				orden.add(Click.deserialize(click));
-			}
-			
-			new Executer().executeListOfClicks(orden);
-			
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			MainGUI.getInstance().maximizeButtonMouseClicked();
-		}
-		
-		// si es un comando
-		else if (ListOfAction.getInstance().getCommand(msg.getOrder()) != null)
-		{
+			System.out.println("Es un comando");
 			// Muestro por pantalla el mensaje de salida
 			showAndSpeak(msg.getText());
 
@@ -133,10 +111,35 @@ public class MessageProcessor {
 					ResourcesActions.Actions.output_command_file);
 			cmd.run();
 		}
-		
 	}
-	
-	
+
+	/** Busca la orden o comando en el archivo JSON y la ejecuta */
+	private static void processOrder(final Message msg) {
+
+		// si es una macro
+		System.out.println("Es una macro");
+		// Muestro por pantalla el mensaje de salida
+		showAndSpeak(msg.getText());
+
+		MainGUI.getInstance().minimizeButtonMouseClicked();
+		//Deserealizo lo q llego en el msg
+		ArrayList<String> clicks = msg.getIcons();
+		ArrayList<Click> orden = new ArrayList<Click>();
+		for (String click : clicks) {
+			orden.add(Click.deserialize(click));
+		}
+
+		new Executer().executeListOfClicks(orden);
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {			}
+		MainGUI.getInstance().maximizeButtonMouseClicked();
+
+
+	}
+
+
 	public static void showAndSpeak (final String text) {
 		// Muestro por pantalla el mensaje de salida
 		MainGUI.getInstance().setTxtOutput(text);
@@ -153,11 +156,11 @@ public class MessageProcessor {
 				Atenea.getInstance().setState(AteneaState.WAITING);
 			}
 		};
-		
+
 		new Thread(playThread).start();
-			
+
 	}
-	
+
 	public static void showSpeakAndLearn (final String text) {
 		// Muestro por pantalla el mensaje de salida
 		MainGUI.getInstance().setTxtOutput(text);
@@ -174,9 +177,9 @@ public class MessageProcessor {
 				Atenea.getInstance().setState(AteneaState.LEARNING);
 			}
 		};
-		
+
 		new Thread(playThread).start();
-			
+
 	}
 
 
