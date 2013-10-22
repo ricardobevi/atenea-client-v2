@@ -153,8 +153,8 @@ public class Executer {
 		ImageIO.write(image2, "jpg", new File(screenshotPath));
 
 		// Cargo la imagen a buscar y el screenshot a memoria
-		IplImage img = cvLoadImage(screenshotPath.replaceFirst("/",""));
-		IplImage template = cvLoadImage(iconFileName.replaceFirst("/",""));
+		IplImage img = cvLoadImage(screenshotPath);//.replaceFirst("/",""));
+		IplImage template = cvLoadImage(iconFileName);//.replaceFirst("/",""));
 		
 		IplImage result = cvCreateImage(cvSize(img.width() - template.width() + 1, img.height() - template.height() + 1), IPL_DEPTH_32F, 1);
 		

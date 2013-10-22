@@ -26,6 +26,7 @@ import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
 import org.squadra.atenea.Atenea;
+import org.squadra.atenea.AteneaState;
 import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.base.ResourcesActions;
 import org.squadra.atenea.base.actions.Click;
@@ -33,6 +34,7 @@ import org.squadra.atenea.base.actions.ListOfAction;
 import org.squadra.atenea.gui.ActionsGUI;
 import org.squadra.atenea.gui.MainGUI;
 import org.squadra.atenea.gui.Resources;
+import org.squadra.atenea.tts.PlayTextMessage;
 
 /*
  * Clase que gestiona la captura de clicks en la pantalla
@@ -40,14 +42,10 @@ import org.squadra.atenea.gui.Resources;
  */
 public class MouseEventHandler implements NativeMouseInputListener,NativeKeyListener  {
 
-	private ListOfAction actionsRecorded;
 	private List<Click> clicks = new ArrayList<Click>();
 	private JDialog frame = new JDialog();
 	private int X1, Y1, X2, Y2;
-	private String clickType;
 	private BufferedImage screen;
-	private File dir = new File(ResourcesActions.Actions.ICONS_PATH);
-	private String actionName;
 	private boolean controlKeyPressed;
 
 	/*
@@ -56,13 +54,8 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 	 * @param fileName nombre del archivo que se va a usar para guardar la ruta
 	 * del icono
 	 */
-	public MouseEventHandler(String fileName, String clickType) {
-		if (!dir.exists())
-			dir.mkdir();
+	public MouseEventHandler(String fileName) {
 
-		actionsRecorded = ListOfAction.getInstance();
-		actionName = fileName;
-		this.clickType = clickType;
 		X1 = X2 = Y1 = Y2 = -1;
 		controlKeyPressed = false;
 
@@ -78,16 +71,17 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 	 * Metodo que agrega las acciones nuevas
 	 */
 	public void finish() {
-//		actionsRecorded.addAction(actionName,clicks);
-		Message msg = new Message(ActionsGUI.getInstance().getName());
-		
-		msg.setType(Message.STORE_ACTION);
+		final Message msg = new Message(ActionsGUI.getInstance().getActionText(), Message.STORE_ACTION);
 		for (Click click : clicks) {
 			msg.setIcon(click.serialize());
 		}
-		
-		// ESTA LINEA ENVIA EL MENSAJE AL SERVIDOR Y RECIBE LA RESPUESTA
-		Message outputMessage = Atenea.getInstance().getClient().dialog(msg);
+		// ESTA LINEA ENVIA EL MENSAJE AL SERVIDOR
+		Runnable sendActionThread = new Runnable() {
+			public void run(){
+				Atenea.getInstance().getClient().dialog(msg);
+			}
+		};
+		new Thread(sendActionThread).start();
 	}
 
 	/** Muestra el snapshot de la pantalla cuando se presiona Ctrl */
@@ -156,7 +150,7 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 			ImageIO.write(bufferedImage, "jpg", out);
 			System.out.println("Grabando imagen en " + iconName);
 
-			clicks.add(new Click(clickType.toString(), iconName));
+			clicks.add(new Click(ActionsGUI.getInstance().getTypeOfClick(), iconName));
 
 			X1 = X2 = Y1 = Y2 = -1;
 
