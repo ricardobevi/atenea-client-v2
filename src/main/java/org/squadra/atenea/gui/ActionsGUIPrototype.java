@@ -52,7 +52,7 @@ public class ActionsGUIPrototype {
 
 					GlobalScreen.registerNativeHook();
 
-					mouseHandler = new MouseEventHandler(name.getText(), CheckBoxGrp.getSelectedCheckbox().getLabel());
+					mouseHandler = new MouseEventHandler(name.getText());
 
 				} catch (NativeHookException ex) {
 					System.err.println("There was a problem registering the native hook.");
