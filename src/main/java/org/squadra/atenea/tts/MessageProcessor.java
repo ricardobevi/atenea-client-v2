@@ -49,7 +49,7 @@ public class MessageProcessor {
 			System.out.println("hay q aprender la orden");
 			showSpeakAndLearn(outputText);//"No se que es eso ¿Podrias enseñarmelo?");//message.getMetadata("orden_desconocida"));
 			MainGUI.getInstance().actionsButtonMouseClicked();
-			ActionsGUI.getInstance().setActionText(MainGUI.getInstance().getTxtInput());
+			ActionsGUI.getInstance().setActionText( message.getOrder() );
 		}
 		else 
 		{
