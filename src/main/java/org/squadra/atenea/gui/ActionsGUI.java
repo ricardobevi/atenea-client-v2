@@ -98,6 +98,7 @@ public class ActionsGUI extends JFrame {
 	 * @author Leandro Morrone
 	 */
 	private void initComponents() {
+		Atenea.getInstance().setState(AteneaState.LEARNING);
 
 		//=================== PROPIEDADES DE LA VENTANA =====================
 
@@ -359,12 +360,13 @@ public class ActionsGUI extends JFrame {
 		{
 			lblState.setText("Guardando acción");
 			stopActionRecord();
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {			}
 			lblRecordButton.setIcon(Resources.Images.RecordButton.red);
 			lblRecordButton.setToolTipText("Iniciar grabación");
 			lblState.setText("Fin de la grabación");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {			}
+			closeButtonMouseClicked();
 		}
 		// Si no esta grabando -> comienza la grabacion
 		else
