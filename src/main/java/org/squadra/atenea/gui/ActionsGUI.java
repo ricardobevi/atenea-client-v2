@@ -25,6 +25,8 @@ import org.squadra.atenea.Atenea;
 import org.squadra.atenea.AteneaState;
 import org.squadra.atenea.actions.Executer;
 import org.squadra.atenea.actions.MouseEventHandler;
+import org.squadra.atenea.ateneacommunication.Message;
+import org.squadra.atenea.base.actions.Click;
 import org.squadra.atenea.base.actions.ListOfAction;
 
 /**
@@ -98,6 +100,7 @@ public class ActionsGUI extends JFrame {
 	 * @author Leandro Morrone
 	 */
 	private void initComponents() {
+		Atenea.getInstance().setState(AteneaState.LEARNING);
 
 		//=================== PROPIEDADES DE LA VENTANA =====================
 
@@ -359,12 +362,13 @@ public class ActionsGUI extends JFrame {
 		{
 			lblState.setText("Guardando acción");
 			stopActionRecord();
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {			}
 			lblRecordButton.setIcon(Resources.Images.RecordButton.red);
 			lblRecordButton.setToolTipText("Iniciar grabación");
 			lblState.setText("Fin de la grabación");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {			}
+			closeButtonMouseClicked();
 		}
 		// Si no esta grabando -> comienza la grabacion
 		else
@@ -430,14 +434,19 @@ public class ActionsGUI extends JFrame {
 
 	/**
 	 * Se ejecuta presionando sobre el boton de reproducir.
-	 * Reproduce la ultima accion grabada.
+	 * Borra la accion indicada.
 	 */
 	protected void removeActionButtonMouseClicked() {
-//		boolean ret = ListOfAction.getInstance().removeAction(txtActionName.getText());
-//		if (ret)
-//			lblState.setText("Acción eliminada");
-//		else
-//			lblState.setText("No se encontró la acción");
+		
+		final Message msg = new Message(ActionsGUI.getInstance().getActionText(), Message.REMOVE_ACTION);
+		// ESTA LINEA ENVIA EL MENSAJE AL SERVIDOR
+		Runnable sendActionThread = new Runnable() {
+			public void run(){
+				Atenea.getInstance().getClient().dialog(msg);
+			}
+		};
+		new Thread(sendActionThread).start();
+		lblState.setText("Acción eliminada");
 	}
 
 	/**

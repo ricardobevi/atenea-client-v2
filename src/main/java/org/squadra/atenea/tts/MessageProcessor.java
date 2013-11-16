@@ -47,7 +47,7 @@ public class MessageProcessor {
 		else if(message.getType() == Message.LEARN_ACTION)
 		{
 			System.out.println("hay q aprender la orden");
-			showSpeakAndLearn(outputText);//"No se que es eso ¿Podrias enseñarmelo?");//message.getMetadata("orden_desconocida"));
+			showSpeakAndLearn(outputText);
 			MainGUI.getInstance().actionsButtonMouseClicked();
 			ActionsGUI.getInstance().setActionText( message.getOrder() );
 		}
@@ -174,7 +174,6 @@ public class MessageProcessor {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				Atenea.getInstance().setState(AteneaState.LEARNING);
 			}
 		};
 
