@@ -128,62 +128,63 @@
 
 
 	<logger name="org.aspectj">
-		<level value="debug" />
+		<level value="off" />
 		<appender-ref ref="TraceFile" />
 		<appender-ref ref="defualtfile" />
 	</logger>
 
 	<logger name="org.squadra.atenea.ateneaws">
-		<level value="debug" />
+		<level value="WARN" />
 		<appender-ref ref="WsAteneaFile" />
 		<appender-ref ref="defualtfile" />
 	</logger>
 
 	<logger name="org.squadra.atenea.aiengine">
-		<level value="debug" />
+		<level value="WARN" />
 		<appender-ref ref="AiEngineFile" />
 		<appender-ref ref="defualtfile" />
 	</logger>
 
 	<logger name="org.apache.cxf">
-		<level value="debug" />
+		<level value="WARN" />
 		<appender-ref ref="cxfAteneaFile" />
 		<appender-ref ref="defualtfile" />
 	</logger>
 
 	<logger name="org.springframework.data.neo4j">
-		<level value="debug" />
+		<level value="WARN" />
 		<appender-ref ref="WsAteneaFile" />
 		<appender-ref ref="defualtfile" />
 	</logger>
 
 	<logger name="javax.servlet">
-		<level value="debug" />
+		<level value="WARN" />
 		<appender-ref ref="DataAccessFile" />
 		<appender-ref ref="defualtfile" />
 	</logger>
 
 	<logger name="org.squadra.atenea.aiengineaccess">
-		<level value="debug" />
+		<level value="WARN" />
 		<appender-ref ref="AiEngineAccessFile" />
 		<appender-ref ref="defualtfile" />
 	</logger>
 
 	<logger name="org.squadra.atenea.dataloader">
-		<level value="debug" />
+		<level value="WARN" />
 		<appender-ref ref="DataLoaderFile" />
 		<appender-ref ref="defualtfile" />
 	</logger>
 
 	<logger name="org.squadra.atenea.data">
-		<level value="debug" />
+		<level value="WARN" />
 		<appender-ref ref="DataAccessFile" />
 		<appender-ref ref="defualtfile" />
 	</logger>
 
 	<root>
-		<priority value="debug" />
+		<priority value="WARN" />
 		<appender-ref ref="otherfile" />
+		<appender-ref ref="console" />
 	</root>
 
 </log4j:configuration>
