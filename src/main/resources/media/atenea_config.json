@@ -2,8 +2,9 @@
 	"userName" : "Leandro",
 	"userAge" : "?",
 	"userEmail" : "?",
-	"userPhone" : "?",
 	"lastConnection" : "?",
 	"alwaysOnTop" : "true",
-	"playResponses" : "true"
+	"playResponses" : "true",
+	"silenceTimeout" : "3",
+	"minPcm" : "0.04"
 }

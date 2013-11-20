@@ -14,7 +14,6 @@ import org.squadra.atenea.base.actions.ListOfAction;
 import org.squadra.atenea.base.actions.PreloadAction;
 import org.squadra.atenea.gui.ActionsGUI;
 import org.squadra.atenea.gui.MainGUI;
-import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.history.HistoryItem;
 
 /**
@@ -146,12 +145,17 @@ public class MessageProcessor {
 
 		Runnable playThread = new Runnable() {
 
-			public void run(){
-				Atenea.getInstance().setState(AteneaState.PLAYING);
-				try {
-					PlayTextMessage.play(text);
-				} catch (Exception e) {
-					e.printStackTrace();
+			public void run() {
+				
+				if (Boolean.parseBoolean(
+						Atenea.getInstance().getConfiguration().getVariable("playResponses"))) {
+					
+					Atenea.getInstance().setState(AteneaState.PLAYING);
+					try {
+						PlayTextMessage.play(text);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				Atenea.getInstance().setState(AteneaState.WAITING);
 			}
@@ -167,12 +171,17 @@ public class MessageProcessor {
 
 		Runnable playThread = new Runnable() {
 
-			public void run(){
-				Atenea.getInstance().setState(AteneaState.PLAYING);
-				try {
-					PlayTextMessage.play(text);
-				} catch (Exception e) {
-					e.printStackTrace();
+			public void run() {
+
+				if (Boolean.parseBoolean(
+						Atenea.getInstance().getConfiguration().getVariable("playResponses"))) {
+					
+					Atenea.getInstance().setState(AteneaState.PLAYING);
+					try {
+						PlayTextMessage.play(text);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		};

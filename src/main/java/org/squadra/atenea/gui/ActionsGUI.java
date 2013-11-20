@@ -40,6 +40,9 @@ import org.squadra.atenea.base.actions.ListOfAction;
 @SuppressWarnings("serial")
 public class ActionsGUI extends JFrame {
 
+	/** Objeto que contiene las variables de configuracion y estado del sistema */
+	private Atenea atenea = Atenea.getInstance();
+	
 	/** Singleton */
 	private static ActionsGUI INSTANCE = null;
 
@@ -117,7 +120,7 @@ public class ActionsGUI extends JFrame {
 		setIconImage(Resources.Images.ateneaIcon);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setAlwaysOnTop(true); //TODO: leer de archivo config
+		setAlwaysOnTop(Boolean.parseBoolean(atenea.getConfiguration().getVariable("alwaysOnTop")));
 
 		//========================== BACKGROUND ============================= 
 
