@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -34,6 +35,7 @@ import org.squadra.atenea.base.actions.ListOfAction;
 import org.squadra.atenea.gui.ActionsGUI;
 import org.squadra.atenea.gui.MainGUI;
 import org.squadra.atenea.gui.Resources;
+import org.squadra.atenea.history.HistoryItem;
 import org.squadra.atenea.tts.PlayTextMessage;
 
 /*
@@ -82,6 +84,11 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 			}
 		};
 		new Thread(sendActionThread).start();
+		// Registro en el historial que enseñé una accion nueva
+		Atenea.getInstance().getHistory().addItem(new HistoryItem(
+				"Atenea", 
+				HistoryItem.INPUT_ACTION,
+				ActionsGUI.getInstance().getActionText(), new Date()));
 	}
 
 	/** Muestra el snapshot de la pantalla cuando se presiona Ctrl */
