@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -28,6 +29,7 @@ import org.squadra.atenea.actions.MouseEventHandler;
 import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.base.actions.Click;
 import org.squadra.atenea.base.actions.ListOfAction;
+import org.squadra.atenea.history.HistoryItem;
 
 /**
  * Interfaz de usuario utilizada para grabar macros.
@@ -440,7 +442,7 @@ public class ActionsGUI extends JFrame {
 	 * Borra la accion indicada.
 	 */
 	protected void removeActionButtonMouseClicked() {
-		
+
 		final Message msg = new Message(ActionsGUI.getInstance().getActionText(), Message.REMOVE_ACTION);
 		// ESTA LINEA ENVIA EL MENSAJE AL SERVIDOR
 		Runnable sendActionThread = new Runnable() {
@@ -450,6 +452,11 @@ public class ActionsGUI extends JFrame {
 		};
 		new Thread(sendActionThread).start();
 		lblState.setText("Acción eliminada");
+		// Registro en el historial que eliminé una accion
+		Atenea.getInstance().getHistory().addItem(new HistoryItem(
+				Atenea.getInstance().getUser(), 
+				HistoryItem.ERASE_ACTION,
+				ActionsGUI.getInstance().getActionText(), new Date()));
 	}
 
 	/**
@@ -507,7 +514,7 @@ public class ActionsGUI extends JFrame {
 		txtActionName.setForeground(Color.BLACK);
 		txtActionName.setText(name);
 	}
-	
+
 	public String getActionText(){
 		return txtActionName.getText();
 	}
