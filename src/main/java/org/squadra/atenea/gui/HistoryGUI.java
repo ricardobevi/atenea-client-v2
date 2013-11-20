@@ -110,6 +110,10 @@ public class HistoryGUI {
 					image = Resources.HistoryElements.Images.input_action;
 					typeStr = "Enseñar acción";
 					break;
+				case HistoryItem.ERASE_ACTION:
+					image = Resources.HistoryElements.Images.output_error;
+					typeStr = "Borrar acción";
+					break;	
 				default:
 					image = Resources.HistoryElements.Images.unknown;
 					typeStr = "Desconocido";

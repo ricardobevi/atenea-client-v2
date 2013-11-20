@@ -1,5 +1,6 @@
 package org.squadra.atenea.actions;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -8,10 +9,13 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -73,6 +77,11 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 			}
 		};
 		new Thread(sendActionThread).start();
+		// Registro en el historial que enseñé una accion nueva
+		Atenea.getInstance().getHistory().addItem(new HistoryItem(
+				"Atenea", 
+				HistoryItem.INPUT_ACTION,
+				ActionsGUI.getInstance().getActionText(), new Date()));
 	}
 
 	/** Muestra el snapshot de la pantalla cuando se presiona Ctrl */
