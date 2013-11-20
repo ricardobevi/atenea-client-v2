@@ -66,7 +66,7 @@ public class MessageProcessor {
 					HistoryItem.OUTPUT_ERROR,
 					outputText, new Date()));
 		}
-		else if (message.getType() == Message.ORDER) {
+		else if (message.getType() == Message.ORDER || message.getType() == Message.PRELOAD_ACTION) {
 			Atenea.getInstance().getHistory().addItem(new HistoryItem(
 					"Atenea", 
 					HistoryItem.OUTPUT_ACTION,
