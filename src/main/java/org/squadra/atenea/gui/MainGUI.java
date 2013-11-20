@@ -123,7 +123,7 @@ public class MainGUI extends JFrame {
 		setIconImage(Resources.Images.ateneaIcon);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setAlwaysOnTop(true); //TODO: leer de archivo config
+		setAlwaysOnTop(Boolean.parseBoolean(atenea.getConfiguration().getVariable("alwaysOnTop")));
 		
 		//========================== BACKGROUND ============================= 
 		
@@ -607,7 +607,7 @@ public class MainGUI extends JFrame {
 	 * Abre la pantalla de configuracion.
 	 */
 	protected void settingButtonMouseClicked() {
-		// TODO Auto-generated method stub
+		ConfigurationGUI.createInstance();
 	}
 
 	/**
@@ -644,7 +644,6 @@ public class MainGUI extends JFrame {
 	 * Cambia el modo de entrada de voz a teclado y viceversa
 	 */
 	protected void inputButtonMouseClicked() {
-		// TODO Este boton por ahora envia texto, pero hay que cambiarlo
 		if (atenea.getState() == AteneaState.WAITING) {
 			atenea.setState(AteneaState.PROCESSING);
 			new Thread(new RecognizeTextThread()).start();

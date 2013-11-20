@@ -105,7 +105,7 @@ public class SplashGUI extends JFrame {
 		
 		//======================== TEXTO VERSION ============================ 
 		
-		lblVersion = new JLabel("1.1");
+		lblVersion = new JLabel("1.4");
 		lblVersion.setForeground(new Color(151, 153, 154));
 		lblVersion.setBounds(332, 173, 40, 40);
 		lblVersion.setFont(new Font("Arial", Font.BOLD, 24));

@@ -1,6 +1,5 @@
 package org.squadra.atenea.actions;
 
-import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -9,32 +8,24 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JDialog;
-import javax.swing.KeyStroke;
 
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
 import org.squadra.atenea.Atenea;
-import org.squadra.atenea.AteneaState;
 import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.base.ResourcesActions;
 import org.squadra.atenea.base.actions.Click;
-import org.squadra.atenea.base.actions.ListOfAction;
 import org.squadra.atenea.gui.ActionsGUI;
-import org.squadra.atenea.gui.MainGUI;
-import org.squadra.atenea.gui.Resources;
-import org.squadra.atenea.tts.PlayTextMessage;
 
 /*
  * Clase que gestiona la captura de clicks en la pantalla
