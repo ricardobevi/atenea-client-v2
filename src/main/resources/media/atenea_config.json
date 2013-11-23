@@ -1,0 +1,10 @@
+{
+	"userName" : "Leandro",
+	"userAge" : "?",
+	"userEmail" : "?",
+	"lastConnection" : "?",
+	"alwaysOnTop" : "true",
+	"playResponses" : "true",
+	"silenceTimeout" : "3",
+	"minPcm" : "0.04"
+}
