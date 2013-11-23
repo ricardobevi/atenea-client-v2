@@ -198,12 +198,20 @@ public class Resources {
 			public static final ImageIcon light_grey = new ImageIcon(BUTTON_PATH + "actions_light_grey.png");
 		}
 		
-		public static class RateButton {
+		public static class RatePositiveButton {
 					
-			private static final String BUTTON_PATH = IMAGES_PATH + "rate_button/";
+			public static final String BUTTON_PATH = IMAGES_PATH + "rate_button/";
 			
-			public static final ImageIcon grey = new ImageIcon(BUTTON_PATH + "rate_grey.png");
-			public static final ImageIcon light_grey = new ImageIcon(BUTTON_PATH + "rate_light_grey.png");
+			public static final ImageIcon grey = new ImageIcon(BUTTON_PATH + "rate_positive_gray.png");
+			public static final ImageIcon light_grey = new ImageIcon(BUTTON_PATH + "rate_positive_light_gray.png");
+		}
+		
+		public static class RateNegativeButton {
+			
+			public static final String BUTTON_PATH = IMAGES_PATH + "rate_button/";
+			
+			public static final ImageIcon grey = new ImageIcon(BUTTON_PATH + "rate_negative_gray.png");
+			public static final ImageIcon light_grey = new ImageIcon(BUTTON_PATH + "rate_negative_light_gray.png");
 		}
 		
 		public static class HistoryButton {

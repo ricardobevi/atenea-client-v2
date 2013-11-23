@@ -25,6 +25,7 @@ import javax.swing.border.LineBorder;
 
 import org.squadra.atenea.Atenea;
 import org.squadra.atenea.AteneaState;
+import org.squadra.atenea.stt.RateAnswerThread;
 import org.squadra.atenea.stt.RecognizeTextThread;
 
 /**
@@ -88,7 +89,8 @@ public class MainGUI extends JFrame {
 	private JLabel lblSettingButton;
 	private JLabel lblHelpButton;
 	private JLabel lblActionsButton;
-	private JLabel lblRateButton;
+	private JLabel lblRatePositiveButton;
+	private JLabel lblRateNegativeButton;
 	private JLabel lblInputButton;
 	private JLabel lblHistoryButton;
 	private JTextArea txtInput;
@@ -386,29 +388,59 @@ public class MainGUI extends JFrame {
             }
         });
 		
-		//================= BOTON DE CALIFICAR RESPUESTA ====================
+		//============= BOTON DE CALIFICAR RESPUESTA POSITIVA ================
 		
-		lblRateButton = new JLabel();
-		lblRateButton.setIcon(Resources.Images.RateButton.grey);
-		lblRateButton.setToolTipText("Calificar respuesta");
-		lblRateButton.setBounds(19, 95, 
-				lblRateButton.getIcon().getIconWidth(), 
-				lblRateButton.getIcon().getIconHeight());
+		lblRatePositiveButton = new JLabel();
+		lblRatePositiveButton.setIcon(Resources.Images.RatePositiveButton.grey);
+		lblRatePositiveButton.setToolTipText("Calificar respuesta como positiva");
+		lblRatePositiveButton.setBounds(19, 95, 
+				lblRatePositiveButton.getIcon().getIconWidth(), 
+				lblRatePositiveButton.getIcon().getIconHeight());
+		
+		System.out.println(Resources.Images.RatePositiveButton.BUTTON_PATH);
 
-		lblRateButton.addMouseListener(new java.awt.event.MouseAdapter() {
+		lblRatePositiveButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
 				if (SwingUtilities.isLeftMouseButton(evt)) {
-	            	rateButtonMouseClicked();
+	            	ratePositiveButtonMouseClicked();
 				}
             }
 			@Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-				lblRateButton.setIcon(Resources.Images.RateButton.light_grey);
+				lblRatePositiveButton.setIcon(Resources.Images.RatePositiveButton.light_grey);
             }
 			@Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-				lblRateButton.setIcon(Resources.Images.RateButton.grey);
+				lblRatePositiveButton.setIcon(Resources.Images.RatePositiveButton.grey);
+            }
+        });
+		
+		//============= BOTON DE CALIFICAR RESPUESTA NEGATIVA ================
+		
+		lblRateNegativeButton = new JLabel();
+		lblRateNegativeButton.setIcon(Resources.Images.RateNegativeButton.grey);
+		lblRateNegativeButton.setToolTipText("Calificar respuesta como positiva");
+		lblRateNegativeButton.setBounds(19, 126, 
+				lblRateNegativeButton.getIcon().getIconWidth(), 
+				lblRateNegativeButton.getIcon().getIconHeight());
+		
+		System.out.println(Resources.Images.RateNegativeButton.BUTTON_PATH);
+
+		lblRateNegativeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+				if (SwingUtilities.isLeftMouseButton(evt)) {
+	            	rateNegativeButtonMouseClicked();
+				}
+            }
+			@Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+				lblRateNegativeButton.setIcon(Resources.Images.RateNegativeButton.light_grey);
+            }
+			@Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+				lblRateNegativeButton.setIcon(Resources.Images.RateNegativeButton.grey);
             }
         });
 		
@@ -545,7 +577,8 @@ public class MainGUI extends JFrame {
 		layeredPane.add(cpOutput, new Integer(3));
 		
 		layeredPane.add(lblActionsButton, new Integer(4));
-		layeredPane.add(lblRateButton, new Integer(4));
+		layeredPane.add(lblRatePositiveButton, new Integer(5));
+		layeredPane.add(lblRateNegativeButton, new Integer(5));
 		layeredPane.add(lblInputButton, new Integer(4));
 		layeredPane.add(lblHistoryButton, new Integer(4));
 		
@@ -633,10 +666,18 @@ public class MainGUI extends JFrame {
 	
 	/**
 	 * Se ejecuta presionando sobre el boton de calificar respuesta.
-	 * Despliega las opciones para calificar la respuesta.
+	 * Califica la respuesta obtenida como positiva.
 	 */
-	protected void rateButtonMouseClicked() {
-		// TODO Auto-generated method stub
+	protected void ratePositiveButtonMouseClicked() {
+		new Thread(new RateAnswerThread(true)).start();
+	}
+	
+	/**
+	 * Se ejecuta presionando sobre el boton de calificar respuesta.
+	 * Califica la respuesta obtenida como negativa.
+	 */
+	protected void rateNegativeButtonMouseClicked() {
+		new Thread(new RateAnswerThread(false)).start();
 	}
 	
 	/**
