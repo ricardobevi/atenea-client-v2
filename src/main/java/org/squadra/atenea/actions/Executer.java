@@ -24,11 +24,8 @@ import javax.imageio.ImageIO;
 import org.squadra.atenea.base.ResourcesActions;
 import org.squadra.atenea.base.actions.Click;
 import org.squadra.atenea.base.actions.ListOfAction;
-import org.squadra.atenea.gui.MainGUI;
-import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.tts.MessageProcessor;
 
-import com.googlecode.javacv.cpp.opencv_core.CvMat;
 import com.googlecode.javacv.cpp.opencv_core.CvPoint;
 
 /**

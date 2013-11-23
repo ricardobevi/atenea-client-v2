@@ -24,10 +24,8 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.squadra.atenea.Atenea;
 import org.squadra.atenea.AteneaState;
-import org.squadra.atenea.actions.Executer;
 import org.squadra.atenea.actions.MouseEventHandler;
 import org.squadra.atenea.ateneacommunication.Message;
-import org.squadra.atenea.base.actions.Click;
 import org.squadra.atenea.base.actions.ListOfAction;
 import org.squadra.atenea.history.HistoryItem;
 
@@ -50,9 +48,6 @@ public class ActionsGUI extends JFrame {
 
 	/** Manejador de eventos del mouse */
 	private MouseEventHandler mouseHandler;
-
-	/** Ejecutador de acciones */
-	private Executer executer = new Executer();
 
 	/** Variable que indica si se esta grabando */
 	private boolean isRecording;
