@@ -65,7 +65,7 @@ public class MessageProcessor {
 					HistoryItem.OUTPUT_ERROR,
 					outputText, new Date()));
 		}
-		else if (message.getType() == Message.ORDER) {
+		else if (message.getType() == Message.ORDER || message.getType() == Message.PRELOAD_ACTION) {
 			Atenea.getInstance().getHistory().addItem(new HistoryItem(
 					"Atenea", 
 					HistoryItem.OUTPUT_ACTION,
@@ -161,12 +161,17 @@ public class MessageProcessor {
 
 		Runnable playThread = new Runnable() {
 
-			public void run(){
-				Atenea.getInstance().setState(AteneaState.PLAYING);
-				try {
-					PlayTextMessage.play(text);
-				} catch (Exception e) {
-					e.printStackTrace();
+			public void run() {
+				
+				if (Boolean.parseBoolean(
+						Atenea.getInstance().getConfiguration().getVariable("playResponses"))) {
+					
+					Atenea.getInstance().setState(AteneaState.PLAYING);
+					try {
+						PlayTextMessage.play(text);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				Atenea.getInstance().setState(AteneaState.WAITING);
 			}
@@ -182,12 +187,17 @@ public class MessageProcessor {
 
 		Runnable playThread = new Runnable() {
 
-			public void run(){
-				Atenea.getInstance().setState(AteneaState.PLAYING);
-				try {
-					PlayTextMessage.play(text);
-				} catch (Exception e) {
-					e.printStackTrace();
+			public void run() {
+
+				if (Boolean.parseBoolean(
+						Atenea.getInstance().getConfiguration().getVariable("playResponses"))) {
+					
+					Atenea.getInstance().setState(AteneaState.PLAYING);
+					try {
+						PlayTextMessage.play(text);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		};
