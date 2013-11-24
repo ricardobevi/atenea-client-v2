@@ -9,7 +9,6 @@ import org.squadra.atenea.Atenea;
 import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.exceptions.GoogleTTSException;
 import org.squadra.atenea.gui.MainGUI;
-import org.squadra.atenea.gui.MainGUIPrototype;
 import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.history.HistoryItem;
 import org.squadra.atenea.tts.MessageProcessor;

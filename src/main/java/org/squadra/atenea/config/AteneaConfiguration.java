@@ -1,20 +1,13 @@
 package org.squadra.atenea.config;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import lombok.ToString;
 import lombok.extern.log4j.Log4j;
-
-import org.squadra.atenea.base.TextFileUtils;
-import org.squadra.atenea.history.History;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

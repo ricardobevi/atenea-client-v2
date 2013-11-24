@@ -26,7 +26,6 @@ import org.squadra.atenea.AteneaState;
 import org.squadra.atenea.actions.Executer;
 import org.squadra.atenea.actions.MouseEventHandler;
 import org.squadra.atenea.ateneacommunication.Message;
-import org.squadra.atenea.base.actions.Click;
 import org.squadra.atenea.base.actions.ListOfAction;
 
 /**

@@ -1,11 +1,14 @@
 package org.squadra.atenea.actions;
 
-import static com.googlecode.javacv.cpp.opencv_core.*;
-import static com.googlecode.javacv.cpp.opencv_highgui.*;
-import static com.googlecode.javacv.cpp.opencv_imgproc.*;
-
-import com.googlecode.javacv.cpp.opencv_core.CvScalar;
-import com.googlecode.javacv.cpp.opencv_core.IplImage;
+import static com.googlecode.javacv.cpp.opencv_core.IPL_DEPTH_32F;
+import static com.googlecode.javacv.cpp.opencv_core.cvCreateImage;
+import static com.googlecode.javacv.cpp.opencv_core.cvMinMaxLoc;
+import static com.googlecode.javacv.cpp.opencv_core.cvRectangle;
+import static com.googlecode.javacv.cpp.opencv_core.cvReleaseImage;
+import static com.googlecode.javacv.cpp.opencv_core.cvSize;
+import static com.googlecode.javacv.cpp.opencv_highgui.cvLoadImage;
+import static com.googlecode.javacv.cpp.opencv_imgproc.CV_TM_SQDIFF_NORMED;
+import static com.googlecode.javacv.cpp.opencv_imgproc.cvMatchTemplate;
 
 import java.awt.AWTException;
 import java.awt.HeadlessException;
@@ -24,12 +27,11 @@ import javax.imageio.ImageIO;
 import org.squadra.atenea.base.ResourcesActions;
 import org.squadra.atenea.base.actions.Click;
 import org.squadra.atenea.base.actions.ListOfAction;
-import org.squadra.atenea.gui.MainGUI;
-import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.tts.MessageProcessor;
 
-import com.googlecode.javacv.cpp.opencv_core.CvMat;
 import com.googlecode.javacv.cpp.opencv_core.CvPoint;
+import com.googlecode.javacv.cpp.opencv_core.CvScalar;
+import com.googlecode.javacv.cpp.opencv_core.IplImage;
 
 /**
  * @brief Clase que ejecuta acciones sobre la pantalla

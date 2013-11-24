@@ -14,7 +14,6 @@ import org.squadra.atenea.base.actions.ListOfAction;
 import org.squadra.atenea.base.actions.PreloadAction;
 import org.squadra.atenea.gui.ActionsGUI;
 import org.squadra.atenea.gui.MainGUI;
-import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.history.HistoryItem;
 
 /**
@@ -40,7 +39,7 @@ public class MessageProcessor {
 			System.out.println("procesamos la orden");
 			processOrder(message);
 		}
-		else if (message.getType() == Message.PRELOAD_ACTION)
+		else if (message.getType() == Message.PRELOAD_ACTION || message.getType() == Message.PRELOAD_ACTION_WITH_PARAM )
 		{
 			processPreloadOrder(message);
 		}
@@ -85,22 +84,38 @@ public class MessageProcessor {
 	private static void processPreloadOrder(Message msg)
 	{
 		PreloadAction action = ListOfAction.getInstance().getPreLoadAction(msg.getOrder());
+		PreloadAction actionWithParam = ListOfAction.getInstance().getPreLoadActionWithParam(msg.getOrder());
+		
 		if (action != null)
 		{
 			System.out.println("Es una accion precargada");
 			// Muestro por pantalla el mensaje de salida
-			showAndSpeak(msg.getText());
-
 			MainGUI.getInstance().minimizeButtonMouseClicked();
 			action.execute();
 
+			showAndSpeak(msg.getText());
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {		}
 			MainGUI.getInstance().maximizeButtonMouseClicked();
 		}
+		// Es una
+		else if (actionWithParam != null){
+			
+			System.out.println("Es una accion precargada con parametros");
+			// Muestro por pantalla el mensaje de salida
+			MainGUI.getInstance().minimizeButtonMouseClicked();
+			actionWithParam.execute();
+			
+			showAndSpeak(msg.getText());
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {		}
+			MainGUI.getInstance().maximizeButtonMouseClicked();
+			
+		}
+		// Es un comando
 		else
-			// Es un comando
 		{
 			System.out.println("Es un comando");
 			// Muestro por pantalla el mensaje de salida

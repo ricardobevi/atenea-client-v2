@@ -11,10 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
-
-
-
-
 import lombok.extern.log4j.Log4j;
 
 import org.apache.commons.lang.StringEscapeUtils;

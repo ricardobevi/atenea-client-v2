@@ -6,8 +6,8 @@ import lombok.Setter;
 
 import org.squadra.atenea.ateneacommunication.AteneaWs;
 import org.squadra.atenea.config.AteneaConfiguration;
-import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.gui.MainGUI;
+import org.squadra.atenea.gui.Resources;
 import org.squadra.atenea.gui.SplashGUI;
 import org.squadra.atenea.history.History;
 import org.squadra.atenea.stt.Microphone;
