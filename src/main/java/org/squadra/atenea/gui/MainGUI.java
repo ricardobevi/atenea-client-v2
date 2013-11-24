@@ -93,6 +93,7 @@ public class MainGUI extends JFrame {
 	private JLabel lblRateNegativeButton;
 	private JLabel lblInputButton;
 	private JLabel lblHistoryButton;
+	private JLabel lblLoading;
 	private JTextArea txtInput;
 	private JScrollPane cpInput;
 	private JTextArea txtOutput;
@@ -181,7 +182,16 @@ public class MainGUI extends JFrame {
 				}
             }
         });
-        
+		
+		//======================= GIF DE CARGANDO ===========================
+		
+		lblLoading = new JLabel();
+		lblLoading.setVisible(false);
+		lblLoading.setIcon(Resources.Images.LoadingGif.circle);
+		lblLoading.setBounds(470, 128, 
+				lblLoading.getIcon().getIconWidth(), 
+				lblLoading.getIcon().getIconHeight());
+		
 		//====================== BOTON PARA CERRAR ==========================
 		
 		lblCloseButton = new JLabel();
@@ -396,8 +406,6 @@ public class MainGUI extends JFrame {
 		lblRatePositiveButton.setBounds(19, 95, 
 				lblRatePositiveButton.getIcon().getIconWidth(), 
 				lblRatePositiveButton.getIcon().getIconHeight());
-		
-		System.out.println(Resources.Images.RatePositiveButton.BUTTON_PATH);
 
 		lblRatePositiveButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
@@ -424,8 +432,6 @@ public class MainGUI extends JFrame {
 		lblRateNegativeButton.setBounds(19, 126, 
 				lblRateNegativeButton.getIcon().getIconWidth(), 
 				lblRateNegativeButton.getIcon().getIconHeight());
-		
-		System.out.println(Resources.Images.RateNegativeButton.BUTTON_PATH);
 
 		lblRateNegativeButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
@@ -577,10 +583,13 @@ public class MainGUI extends JFrame {
 		layeredPane.add(cpOutput, new Integer(3));
 		
 		layeredPane.add(lblActionsButton, new Integer(4));
-		layeredPane.add(lblRatePositiveButton, new Integer(5));
-		layeredPane.add(lblRateNegativeButton, new Integer(5));
 		layeredPane.add(lblInputButton, new Integer(4));
 		layeredPane.add(lblHistoryButton, new Integer(4));
+		
+		layeredPane.add(lblRatePositiveButton, new Integer(5));
+		layeredPane.add(lblRateNegativeButton, new Integer(5));
+		
+		layeredPane.add(lblLoading, new Integer(6));
 		
 		// Hago visible la GUI una vez que termino de cargar todos los componentes
 		setVisible(true);
@@ -759,22 +768,28 @@ public class MainGUI extends JFrame {
 			case AteneaState.WAITING: 
 				guiColor = Resources.Colors.GREEN;
 				trayMenu.getItem(0).setLabel("Grabar mensaje");
+				lblLoading.setVisible(false);
 				break;
 			case AteneaState.RECORDING: 
 				guiColor = Resources.Colors.RED;
 				trayMenu.getItem(0).setLabel("Detener grabación");
+				lblLoading.setVisible(false);
 				break;
 			case AteneaState.PROCESSING: 
 				guiColor = Resources.Colors.YELLOW;
+				lblLoading.setVisible(true);
 				break;
 			case AteneaState.PLAYING: 
 				guiColor = Resources.Colors.ORANGE;
+				lblLoading.setVisible(false);
 				break;
 			case AteneaState.LEARNING: 
 				guiColor = Resources.Colors.BLUE;
+				lblLoading.setVisible(false);
 				break;
 			default:
 				guiColor = Resources.Colors.YELLOW;
+				lblLoading.setVisible(false);
 		}
 		
 		if (mainButtonOver) {

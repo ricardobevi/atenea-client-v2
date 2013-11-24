@@ -256,6 +256,16 @@ public class Resources {
 			public static final ImageIcon red = new ImageIcon(BUTTON_PATH + "stop_red.png");
 		}
 		
+		public static class LoadingGif {
+			
+			private static final String BUTTON_PATH = IMAGES_PATH + "loading_gif/";
+			
+			public static final ImageIcon bar = new ImageIcon(BUTTON_PATH + "loading_bar.gif");
+			public static final ImageIcon circle = new ImageIcon(BUTTON_PATH + "loading_circle.gif");
+			public static final ImageIcon rectangle = new ImageIcon(BUTTON_PATH + "loading_face.gif");
+			public static final ImageIcon flower = new ImageIcon(BUTTON_PATH + "loading_flower.gif");
+		}	
+		
 	}
 
 	public static class HistoryElements {
