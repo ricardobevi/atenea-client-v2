@@ -315,9 +315,11 @@ public class ConfigurationGUI extends JFrame {
 		if (this.textUserName.getText().equals("")) {
 			atenea.getConfiguration()
 				.updateVariable("userName", "?");
+			atenea.setUser("?");
 		} else {
 			atenea.getConfiguration()
 				.updateVariable("userName", this.textUserName.getText());
+			atenea.setUser(this.textUserName.getText());
 		}
 		
 		atenea.getConfiguration()
