@@ -27,6 +27,7 @@ import org.squadra.atenea.ateneacommunication.Message;
 import org.squadra.atenea.base.ResourcesActions;
 import org.squadra.atenea.base.actions.Click;
 import org.squadra.atenea.gui.ActionsGUI;
+import org.squadra.atenea.history.HistoryItem;
 
 /*
  * Clase que gestiona la captura de clicks en la pantalla
@@ -74,6 +75,13 @@ public class MouseEventHandler implements NativeMouseInputListener,NativeKeyList
 			}
 		};
 		new Thread(sendActionThread).start();
+		
+		// Registro en el historial que eliminé una accion
+				Atenea.getInstance().getHistory().addItem(new HistoryItem(
+						Atenea.getInstance().getUser(), 
+						HistoryItem.LEARN_ACTION,
+						ActionsGUI.getInstance().getActionText(), new Date()));
+				
 	}
 
 	/** Muestra el snapshot de la pantalla cuando se presiona Ctrl */
