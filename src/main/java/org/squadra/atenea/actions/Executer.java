@@ -181,7 +181,7 @@ public class Executer {
 		cvMinMaxLoc(result, min_val, max_val, minLoc, maxLoc, null);
 
 		//Comparo con el THRESHOLD
-		if (min_val[0] < 0.18) {
+		if (min_val[0] < 0.10) {
 
 			CvPoint point = new CvPoint();
 			point.x(minLoc.x() + template.width());
