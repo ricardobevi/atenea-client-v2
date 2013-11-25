@@ -32,6 +32,7 @@ public class HistoryItem {
 	public static final int OUTPUT_ACTION = 5;
 	public static final int OUTPUT_ERROR = 6;
 	public static final int ERASE_ACTION = 7;
+	public static final int LEARN_ACTION = 8;
 	
 	/**
 	 * Constructor
