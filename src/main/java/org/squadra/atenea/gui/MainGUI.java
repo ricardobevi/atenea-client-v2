@@ -1,6 +1,7 @@
 package org.squadra.atenea.gui;
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.MenuItem;
@@ -13,6 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -654,10 +657,17 @@ public class MainGUI extends JFrame {
 
 	/**
 	 * Se ejecuta presionando sobre el boton de ayuda.
-	 * Abre la seccion de ayuda del sitio web.
+	 * Abre el manual de usuario.
 	 */
 	protected void helpButtonMouseClicked() {
-		// TODO Auto-generated method stub
+		if (Desktop.isDesktopSupported()) {
+		    try {
+		        File myFile = new File(Resources.Help.file);
+		        Desktop.getDesktop().open(myFile);
+		    } catch (IOException ex) {
+		        ex.printStackTrace();
+		    }
+		}
 	}
 	
 	/**

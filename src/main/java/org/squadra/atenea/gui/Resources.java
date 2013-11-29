@@ -299,6 +299,13 @@ public class Resources {
 		public static final String clientConfig = BASE_PATH + "atenea_config.json";
 	}
 	
+	public static class Help {
+		
+		private static final String HELP_PATH = BASE_PATH + "help/";
+		
+		public static final String file = HELP_PATH + "atenea_manual.pdf";
+	}
+	
 	public static enum Colors {
 		GREEN, RED, BLUE, ORANGE, YELLOW, GREY
 	}
