@@ -1,11 +1,14 @@
 package org.squadra.atenea.gui;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -109,7 +112,7 @@ public class ActionsGUI extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		setTitle("Atenea - "); //TODO: poner el AteneaState en el titulo
+		setTitle("Atenea - " + atenea.getStateText());
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setUndecorated(true);
 		setSize(379, 100);
@@ -347,7 +350,14 @@ public class ActionsGUI extends JFrame {
 	 * Abre la seccion de ayuda del sitio web.
 	 */
 	protected void helpButtonMouseClicked() {
-		// TODO Auto-generated method stub
+		if (Desktop.isDesktopSupported()) {
+		    try {
+		        File myFile = new File(Resources.Help.file);
+		        Desktop.getDesktop().open(myFile);
+		    } catch (IOException ex) {
+		        ex.printStackTrace();
+		    }
+		}
 	}
 
 	/**
